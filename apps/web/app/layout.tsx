@@ -1,7 +1,11 @@
+import type { ReactNode } from 'react';
+
 import '@founderswap/design-system/styles/shared-globals.css';
 import { DesignSystemProvider } from '@founderswap/design-system';
 import { fonts } from '@founderswap/design-system/lib/fonts';
-import type { ReactNode } from 'react';
+
+import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
+import { AuthProvider } from "@/hooks/useAuth";
 
 export { metadata } from '@/lib/config/metadata';
 
@@ -12,7 +16,12 @@ type RootLayoutProperties = {
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang="en" className={fonts} suppressHydrationWarning>
     <body>
-      <DesignSystemProvider>{children}</DesignSystemProvider>
+      <DesignSystemProvider>
+        <ReactQueryClientProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ReactQueryClientProvider></DesignSystemProvider>
     </body>
   </html>
 );

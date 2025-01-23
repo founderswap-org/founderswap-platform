@@ -7,11 +7,9 @@ import {
   SidebarHeader,
 } from '@founderswap/design-system/components/ui/sidebar';
 import {
-  ChartColumn,
-  Info,
-  MessageCircle,
-  PlusCircle,
-  Rocket,
+  Calendar,
+  Home,
+  Users,
 } from 'lucide-react';
 import type React from 'react';
 
@@ -29,33 +27,19 @@ const data = {
   },
   navMain: [
     {
-      title: 'Startups',
-      url: '/startups',
-      icon: Rocket,
+      title: 'Overview',
+      url: '/',
+      icon: Home,
     },
     {
-      title: 'Benchmark',
-      url: '/benchmark',
-      icon: ChartColumn,
-    },
-  ],
-  navSecondary: [
-    {
-      title: 'Submit',
-      url: 'https://tally.so/r/3lKZEW',
-      icon: PlusCircle,
-      isExternal: true,
+      title: 'Availabilities',
+      url: '/availabilities',
+      icon: Calendar,
     },
     {
-      title: 'About',
-      url: '/about',
-      icon: Info,
-    },
-    {
-      title: 'Feedback',
-      url: 'https://tally.so/r/mOdyN8',
-      icon: MessageCircle,
-      isExternal: true,
+      title: 'Connections',
+      url: '/connections',
+      icon: Users,
     },
   ],
 };

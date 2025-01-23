@@ -1,13 +1,9 @@
 "use client"
 
 import {
-    BadgeCheck,
-    Bell,
     ChevronsUpDown,
-    CreditCard,
     LogOut,
-    Monitor, MoonIcon,
-    Sparkles, SunIcon
+    Monitor, MoonIcon, Settings, SunIcon
 } from "lucide-react"
 import { useTheme } from 'next-themes';
 import React from 'react';
@@ -87,11 +83,11 @@ export function NavUser({
                         align="end"
                         sideOffset={4}
                     >
-                        <DropdownMenuLabel className="p-0 font-normal">
-                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                <Avatar className='h-8 w-8 rounded-lg'>
+                        <DropdownMenuLabel className='!h-auto p-0 font-normal'>
+                            <div className='text flex items-center gap-2 px-1.5 py-1 text-left text-sm'>
+                                <Avatar className='size-9 rounded-lg'>
                                     <AvatarImage src={user.avatar} alt={user.name} />
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                    <AvatarFallback className="rounded-lg">{user.name.slice(0, 2)}</AvatarFallback>
                                 </Avatar>
                                 <div className='grid flex-1 text-left text-sm leading-tight'>
                                     <span className='truncate font-semibold'>{user.name}</span>
@@ -102,23 +98,8 @@ export function NavUser({
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Bell />
-                                Notifications
+                                <Settings />
+                                Settings
                             </DropdownMenuItem>
                             <DropdownMenuSubMenu>
                                 <DropdownMenuSubMenuTrigger>
