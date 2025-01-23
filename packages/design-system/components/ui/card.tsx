@@ -1,0 +1,31 @@
+import React from "react";
+import { Slot } from "@radix-ui/react-slot";
+
+import { cn } from "@founderswap/design-system/lib/utils";
+
+interface CardProps extends React.ComponentPropsWithoutRef<"div"> {
+  asChild?: boolean;
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, asChild, ...props }, forwardedRef) => {
+  const Component = asChild ? Slot : "div";
+  return (
+    <Component
+      ref={forwardedRef}
+      className={cn(
+        // base
+        "text-sm relative w-full rounded-2xl border p-6 text-left shadow-sm",
+        // background color
+        "bg-card",
+        // border color
+        "border-default",
+        className
+      )}
+      {...props}
+    />
+  );
+});
+
+Card.displayName = "Card";
+
+export { Card, type CardProps };
