@@ -37,7 +37,7 @@
     "@founderswap/typescript-config": "workspace:*",
     "@types/node": "22.10.1",
     "@types/react": "19.0.1",
-    "@types/react-dom": "19.0.2",
+    "@types/react-dom": "19.0.3",
     "autoprefixer": "^10.4.20",
     "jsdom": "^25.0.1",
     "postcss-import": "^16.1.0",
