@@ -60,8 +60,8 @@ importers:
         specifier: ^5.64.2
         version: 5.64.2(react@19.0.0)
       date-fns:
-        specifier: ^3.0.0
-        version: 3.6.0
+        specifier: ^4.1.0
+        version: 4.1.0
       import-in-the-middle:
         specifier: ^1.11.3
         version: 1.12.0
@@ -266,8 +266,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       date-fns:
-        specifier: ^3.0.0
-        version: 3.6.0
+        specifier: ^4.1.0
+        version: 4.1.0
       embla-carousel-react:
         specifier: ^8.5.1
         version: 8.5.2(react@19.0.0)
@@ -288,7 +288,7 @@ importers:
         version: 19.0.0
       react-day-picker:
         specifier: 8.10.1
-        version: 8.10.1(date-fns@3.6.0)(react@19.0.0)
+        version: 8.10.1(date-fns@4.1.0)(react@19.0.0)
       react-hook-form:
         specifier: ^7.54.2
         version: 7.54.2(react@19.0.0)
@@ -2617,8 +2617,8 @@ packages:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
 
-  date-fns@3.6.0:
-    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
@@ -3176,6 +3176,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.isplainobject@4.0.6:
     resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
@@ -6915,7 +6916,7 @@ snapshots:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.1.0
 
-  date-fns@3.6.0: {}
+  date-fns@4.1.0: {}
 
   debug@4.4.0:
     dependencies:
@@ -7941,9 +7942,9 @@ snapshots:
       css-styled: 1.0.8
       framework-utils: 1.1.0
 
-  react-day-picker@8.10.1(date-fns@3.6.0)(react@19.0.0):
+  react-day-picker@8.10.1(date-fns@4.1.0)(react@19.0.0):
     dependencies:
-      date-fns: 3.6.0
+      date-fns: 4.1.0
       react: 19.0.0
 
   react-dom@19.0.0(react@19.0.0):
