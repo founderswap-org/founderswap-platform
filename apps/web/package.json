@@ -36,7 +36,7 @@
   "devDependencies": {
     "@founderswap/typescript-config": "workspace:*",
     "@types/node": "22.10.1",
-    "@types/react": "19.0.1",
+    "@types/react": "19.0.8",
     "@types/react-dom": "19.0.2",
     "autoprefixer": "^10.4.20",
     "jsdom": "^25.0.1",
