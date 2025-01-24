@@ -42,6 +42,7 @@ const data = {
       icon: Users,
     },
   ],
+  navSecondary: []
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
