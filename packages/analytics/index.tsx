@@ -5,9 +5,7 @@ type AnalyticsProviderProps = {
   readonly children: ReactNode;
 };
 
-export const AnalyticsProvider = ({
-  children,
-}: AnalyticsProviderProps) => (
+export const AnalyticsProvider = ({ children }: AnalyticsProviderProps) => (
   <>
     {children}
     <VercelAnalytics />

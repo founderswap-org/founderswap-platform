@@ -6,8 +6,7 @@
     "build": "next build",
     "start": "next start",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "supabase:types": "npx supabase gen types typescript --project-id \"hxjowbnksmpqvuhdxeua\" > ./utils/database.ts"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@founderswap/analytics": "workspace:*",

@@ -11,7 +11,7 @@
     --color-bg-muted: var(--color-neutral-200);
     --color-bg-inverse: var(--color-neutral-950);
     --color-bg-elevated: var(--color-neutral-0);
-    --color-bg-mask: #24181B99;
+    --color-bg-mask: #24181b99;
     --color-bg-item: var(--color-neutral-0);
     --color-bg-item-hover: var(--color-neutral-100);
     --color-bg-item-active: var(--color-neutral-200);
@@ -223,7 +223,7 @@
     --color-bg-muted: var(--color-neutral-900);
     --color-bg-inverse: var(--color-neutral-50);
     --color-bg-elevated: var(--color-neutral-950);
-    --color-bg-mask: #24181BCC;
+    --color-bg-mask: #24181bcc;
     --color-bg-item: var(--color-neutral-1000);
     --color-bg-item-hover: var(--color-neutral-900);
     --color-bg-item-active: var(--color-neutral-800);

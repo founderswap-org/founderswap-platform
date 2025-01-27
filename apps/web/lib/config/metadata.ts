@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'FounderSwap',
-  description:
-    'Building connections, shaping future',
+  description: 'Building connections, shaping future',
   keywords: [
     'FounderSwap',
     'Opens-source',
@@ -16,8 +15,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'FounderSwap',
-    description:
-      'Building connections, shaping future',
+    description: 'Building connections, shaping future',
     url: 'https://www.founderswap.com',
     siteName: 'FounderSwap',
     locale: 'en_US',

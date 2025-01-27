@@ -5,31 +5,31 @@
 @layer base {
   :root {
     /* color brand */
-    --color-brand-50: #FFF3F1;
-    --color-brand-100: #FFE4DF;
-    --color-brand-200: #FFCEC5;
-    --color-brand-300: #FFAD9D;
-    --color-brand-400: #FF7D64;
-    --color-brand-500: #FF6446;
-    --color-brand-600: #ED3815;
-    --color-brand-700: #C82B0D;
-    --color-brand-800: #A5270F;
+    --color-brand-50: #fff3f1;
+    --color-brand-100: #ffe4df;
+    --color-brand-200: #ffcec5;
+    --color-brand-300: #ffad9d;
+    --color-brand-400: #ff7d64;
+    --color-brand-500: #ff6446;
+    --color-brand-600: #ed3815;
+    --color-brand-700: #c82b0d;
+    --color-brand-800: #a5270f;
     --color-brand-900: #882714;
-    --color-brand-950: #4B1004;
+    --color-brand-950: #4b1004;
     /* color neutral */
     --color-neutral-0: #ffffff;
-    --color-neutral-50: #FBF9F9;
-    --color-neutral-100: #F7F3F2;
-    --color-neutral-200: #EFE8E6;
-    --color-neutral-300: #DCCAC6;
-    --color-neutral-400: #C8ABA7;
-    --color-neutral-500: #B08682;
-    --color-neutral-600: #945C5D;
-    --color-neutral-700: #734A4F;
-    --color-neutral-800: #4C3338;
-    --color-neutral-900: #3C2A2E;
-    --color-neutral-950: #2E1F22;
-    --color-neutral-1000: #24181B;
+    --color-neutral-50: #fbf9f9;
+    --color-neutral-100: #f7f3f2;
+    --color-neutral-200: #efe8e6;
+    --color-neutral-300: #dccac6;
+    --color-neutral-400: #c8aba7;
+    --color-neutral-500: #b08682;
+    --color-neutral-600: #945c5d;
+    --color-neutral-700: #734a4f;
+    --color-neutral-800: #4c3338;
+    --color-neutral-900: #3c2a2e;
+    --color-neutral-950: #2e1f22;
+    --color-neutral-1000: #24181b;
     /* color red */
     --color-red-50: #fef2f2;
     --color-red-100: #fee2e2;

@@ -4,8 +4,7 @@ import '@founderswap/design-system/styles/shared-globals.css';
 import { DesignSystemProvider } from '@founderswap/design-system';
 import { fonts } from '@founderswap/design-system/lib/fonts';
 
-import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
-import { AuthProvider } from "@/hooks/useAuth";
+import { ReactQueryClientProvider } from '@/components/ReactQueryClientProvider';
 
 export { metadata } from '@/lib/config/metadata';
 
@@ -18,10 +17,11 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
     <body>
       <DesignSystemProvider>
         <ReactQueryClientProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
-        </ReactQueryClientProvider></DesignSystemProvider>
+          {/* <AuthProvider> */}
+          {children}
+          {/* </AuthProvider> */}
+        </ReactQueryClientProvider>
+      </DesignSystemProvider>
     </body>
   </html>
 );

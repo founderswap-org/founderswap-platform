@@ -1,27 +1,27 @@
 import {
-	type Availabilities,
-	getFirstAndLastDay,
-} from "@/utils/getNextWeekDays";
-import type { TypedSupabaseClient } from "@/utils/types";
+  type Availabilities,
+  getFirstAndLastDay,
+} from '@/utils/getNextWeekDays';
+import type { TypedSupabaseClient } from '@/utils/types';
 
 export async function getAvailabilities(
-	supabase: TypedSupabaseClient,
-	days: Availabilities,
-	userId: string,
+  supabase: TypedSupabaseClient,
+  days: Availabilities,
+  userId: string
 ) {
-	const { firstDay, lastDay } = getFirstAndLastDay(days);
+  const { firstDay, lastDay } = getFirstAndLastDay(days);
 
-	const { data } = await supabase
-		.from("availabilities")
-		.select("*")
-		.eq("user_id", userId)
-		.gte("slot", firstDay.toISOString())
-		.lte("slot", lastDay.toISOString())
-		.throwOnError();
+  const { data } = await supabase
+    .from('availabilities')
+    .select('*')
+    .eq('user_id', userId)
+    .gte('slot', firstDay.toISOString())
+    .lte('slot', lastDay.toISOString())
+    .throwOnError();
 
-	if (!data) {
-		throw new Error("No data found");
-	}
+  if (!data) {
+    throw new Error('No data found');
+  }
 
-	return data;
+  return data;
 }

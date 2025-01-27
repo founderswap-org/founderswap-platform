@@ -6,11 +6,7 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@founderswap/design-system/components/ui/sidebar';
-import {
-  Calendar,
-  Home,
-  Users,
-} from 'lucide-react';
+import { Calendar, Home, Users } from 'lucide-react';
 import type React from 'react';
 
 import { MobileTitle } from '@/components/ui/mobile-title';
@@ -41,11 +37,13 @@ const navItems = [
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const auth = useAuth();
 
-  const userData = auth ? {
-    name: `${auth.user?.user_metadata.firstname} ${auth.user?.user_metadata.lastname}`,
-    email: auth.user?.email ?? '',
-    avatar: auth.user?.user_metadata.avatar_url ?? '',
-  } : undefined;
+  const userData = auth
+    ? {
+        name: `${auth.user?.user_metadata.firstname} ${auth.user?.user_metadata.lastname}`,
+        email: auth.user?.email ?? '',
+        avatar: auth.user?.user_metadata.avatar_url ?? '',
+      }
+    : undefined;
 
   return (
     <Sidebar

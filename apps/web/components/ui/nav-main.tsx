@@ -46,8 +46,9 @@ export function NavMain({
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = pathname === item.url ||
-            (item.items?.some(subItem => pathname === subItem.url));
+          const isActive =
+            pathname === item.url ||
+            item.items?.some((subItem) => pathname === subItem.url);
 
           return (
             <Collapsible key={item.title} asChild defaultOpen={isActive}>
