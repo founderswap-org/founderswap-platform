@@ -24,6 +24,7 @@ type Context = {
 	signIn: (email: string, password: string) => Promise<unknown>;
 	signOut: () => Promise<void>;
 	signUp: (params: SignUpParam) => Promise<unknown>;
+	supabase: ReturnType<typeof useSupabase>;
 };
 
 export const AuthContext = createContext<Context | null>(null);
@@ -37,14 +38,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setSession(session);
+			setUser(session?.user ?? null);
 			setLoading(false);
 		});
 
 		const {
 			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
+		} = supabase.auth.onAuthStateChange(async (event, session) => {
 			setSession(session);
+			setUser(session?.user ?? null);
 			setLoading(false);
+
+			if (session && event === 'TOKEN_REFRESHED') {
+				const { data, error } = await supabase.auth.refreshSession();
+				if (!error && data.session) {
+					setSession(data.session);
+					setUser(data.session.user);
+				} else {
+					await signOut();
+				}
+			}
 		});
 
 		return () => subscription.unsubscribe();
@@ -97,7 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		return data;
 	}
 
-	const value = { session, signIn, signOut, signUp, user };
+	const value = { session, signIn, signOut, signUp, user, supabase };
 
 	return (
 		<AuthContext.Provider value={value}>

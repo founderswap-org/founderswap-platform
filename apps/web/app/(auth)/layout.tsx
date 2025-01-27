@@ -1,20 +1,24 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import type React from 'react';
+'use client';
 
-export default async function AuthLayout({
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import type React from 'react';
+import { useEffect } from 'react';
+
+export default function AuthLayout({
     children,
 }: { children: React.ReactNode }) {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('session');
+    const router = useRouter();
+    const auth = useAuth();
 
-    // Se l'utente è già autenticato, reindirizza alla dashboard
-    if (session) {
-        return redirect('/');
-    }
+    useEffect(() => {
+        if (auth?.session) {
+            router.push('/');
+        }
+    }, [auth?.session, router]);
 
     return (
-        <div>
+        <div className='flex h-screen w-screen items-center justify-center bg-background' >
             {children}
         </div>
     );

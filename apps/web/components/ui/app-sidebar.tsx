@@ -17,14 +17,8 @@ import { MobileTitle } from '@/components/ui/mobile-title';
 import { NavHeader } from '@/components/ui/nav-header';
 import { NavMain } from '@/components/ui/nav-main';
 import { NavUser } from '@/components/ui/nav-user';
-import { MobileContent } from './mobile-content';
 import { useAuth } from '@/hooks/useAuth';
-
-const userData = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  avatar: 'https://avatars.githubusercontent.com/u/70836137?v=4',
-};
+import { MobileContent } from './mobile-content';
 
 const navItems = [
   {
@@ -45,15 +39,13 @@ const navItems = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useAuth() ?? {};
+  const auth = useAuth();
 
-  /*
-  const userData = user?.email ? {
-    name: `${user.user_metadata.firstname} ${user.user_metadata.lastname}`,
-    email: user.email,
-    avatar: user.user_metadata.avatar_url || undefined,
-  } : null;
-  */
+  const userData = auth ? {
+    name: `${auth.user?.user_metadata.firstname} ${auth.user?.user_metadata.lastname}`,
+    email: auth.user?.email ?? '',
+    avatar: auth.user?.user_metadata.avatar_url ?? '',
+  } : undefined;
 
   return (
     <Sidebar
@@ -70,7 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={navItems} />
       </SidebarContent>
       <SidebarFooter>
-        {userData && <NavUser user={userData} />}
+        <NavUser user={userData} />
       </SidebarFooter>
     </Sidebar>
   );
