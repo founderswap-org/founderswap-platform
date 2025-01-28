@@ -46,5 +46,73 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {
     "*.css": "tailwindcss"
+  },
+  "workbench.colorCustomizations": {
+    "titleBar.activeForeground": "#FF6446",
+
+    "activityBar.background": "#24181B",
+    "activityBar.foreground": "#FF6446",
+    "activityBar.activeBackground": "#24181B",
+    "activityBar.activeBorder": "#FF6446",
+
+    "sideBar.background": "#2E1F22",
+    "sideBarSectionHeader.foreground": "#7F7779",
+    "sideBarSectionHeader.background": "#3C2A2E",
+    "sideBarSectionHeader.border": "#24181B",
+    "sideBarSectionHeader.hoverBackground": "#24181B",
+    "sideBarSectionHeader.hoverForeground": "#7F7779",
+
+    "titleBar.activeBackground": "#24181B",
+    "titleBar.inactiveForeground": "#FF6446",
+    "titleBar.inactiveBackground": "#1f1417",
+
+    "editorGroupHeader.tabsBackground": "#24181B",
+    "tab.activeBackground": "#3C2A2E",
+    "tab.inactiveBackground": "#302024",
+    "tab.inactiveForeground": "#CCC",
+
+    "editor.background": "#271c1e",
+    "editorGroupHeader.tabsBorder": "#24181B",
+
+    "statusBar.background": "#24181B",
+    "statusBar.foreground": "#7F7779",
+
+    "statusBar.noFolderBackground": "#24181B",
+    "statusBar.noFolderForeground": "#3C2A2E",
+
+    "statusBarItem.activeBackground": "#FF6446",
+    "statusBarItem.hoverBackground": "#24181B",
+    "statusBarItem.hoverForeground": "#7F7779",
+
+    "activityBarBadge.background": "#7F7779",
+    "activityBarBadge.foreground": "#24181B",
+
+    "focusBorder": "#3C2A2E",
+
+    "quickInput.background": "#24181B",
+
+    "list.activeSelectionBackground": "#3C2A2E",
+    "list.activeSelectionForeground": "#7F7779",
+    "list.activeSelectionBorder": "#ED3815",
+
+    "button.background": "#FD8068",
+    "button.hoverBackground": "#FF6446",
+    "button.foreground": "#181012",
+
+    "input.background": "#3C2A2E",
+    "input.border": "#24181B",
+
+    "panelTitle.inactiveForeground": "#574B4D",
+    "panelTitle.activeForeground": "#FF6446",
+    "panelTitle.activeBorder": "#FF6446",
+
+    "editorLineNumber.foreground": "#7F7779",
+    "editorLineNumber.activeForeground": "#FF6446",
+    "editorWidget.background": "#24181B",
+    "editorWidget.foreground": "#7F7779",
+    "editorWidget.border": "#FF6446",
+
+    "scrollbarSlider.background": "#24181B",
+    "scrollbarSlider.hoverBackground": "#181012"
   }
 }
