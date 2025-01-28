@@ -1,21 +1,19 @@
-import { updateSession } from '@/utils/supabase/middleware'
-import type { NextRequest } from 'next/server'
+import type { NextRequest } from 'next/server';
+import { updateSession } from './utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+  return await updateSession(request);
 }
 
 export const config = {
-  // matcher: [],
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - icon.ico
-     * Feel free to modify this pattern to include more paths.
+     * Match all request paths except for quelle che iniziano con:
+     * - _next/static (file statici)
+     * - _next/image (file per l'ottimizzazione immagini)
+     * - favicon.ico
+     * Puoi modificare lo pattern come preferisci.
      */
-    '/((?!_next/static|_next/image|favicon.ico|icon.ico.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icon(?:\\?.*)?|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-}
+};
