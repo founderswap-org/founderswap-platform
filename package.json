@@ -20,7 +20,7 @@
     "ultracite": "^4.1.14"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "resolutions": {
     "@headlessui/react": "2.2.0"
