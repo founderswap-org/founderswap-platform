@@ -1,7 +1,4 @@
 'use client';
-
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from '@founderswap/design-system/components/ui/toast';
 import {
   ChevronsUpDown,
   LogOut,
@@ -11,7 +8,6 @@ import {
   SunIcon,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import {
@@ -56,20 +52,8 @@ export function NavUser({ user }: NavUserProps) {
   if (!user) return null;
   const { theme, setTheme } = useTheme();
   const { isMobile, state } = useSidebar();
-  const auth = useAuth();
-  const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await auth?.signOut();
-      router.refresh();
-      router.push('/login');
-      toast('Logged out successfully');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('Error during logout');
-    }
-  };
+  const handleLogout = async () => {};
 
   const currentTheme = React.useMemo(() => {
     return themes.find((t) => t.value === theme) ?? themes[2];

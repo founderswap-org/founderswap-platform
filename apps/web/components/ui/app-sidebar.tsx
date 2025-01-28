@@ -13,7 +13,6 @@ import { MobileTitle } from '@/components/ui/mobile-title';
 import { NavHeader } from '@/components/ui/nav-header';
 import { NavMain } from '@/components/ui/nav-main';
 import { NavUser } from '@/components/ui/nav-user';
-import { useAuth } from '@/hooks/useAuth';
 import { MobileContent } from './mobile-content';
 
 const navItems = [
@@ -35,15 +34,11 @@ const navItems = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const auth = useAuth();
-
-  const userData = auth
-    ? {
-        name: `${auth.user?.user_metadata.firstname} ${auth.user?.user_metadata.lastname}`,
-        email: auth.user?.email ?? '',
-        avatar: auth.user?.user_metadata.avatar_url ?? '',
-      }
-    : undefined;
+  const userData = {
+    name: 'John Doe',
+    email: 'john.doe@gmail.com',
+    avatar: '',
+  };
 
   return (
     <Sidebar
