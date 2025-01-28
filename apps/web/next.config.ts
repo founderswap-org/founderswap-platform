@@ -1,5 +1,5 @@
 export default {
-  output: 'standalone',
+  // output: 'standalone',
   images: {
     remotePatterns: [
       {
