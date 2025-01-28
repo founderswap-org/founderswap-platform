@@ -14,4 +14,7 @@ export default {
       },
     ],
   },
+  experimental: {
+    runtime: 'edge', // Set runtime edge as default
+  },
 };
