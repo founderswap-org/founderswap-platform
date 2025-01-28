@@ -6,61 +6,61 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@founderswap/design-system/components/ui/sidebar';
-import {
-  Calendar,
-  Home,
-  Users,
-} from 'lucide-react';
+import { Calendar, Home, Users } from 'lucide-react';
 import type React from 'react';
 
 import { MobileTitle } from '@/components/ui/mobile-title';
 import { NavHeader } from '@/components/ui/nav-header';
 import { NavMain } from '@/components/ui/nav-main';
 import { NavUser } from '@/components/ui/nav-user';
+import { useAuth } from '@/hooks/useAuth';
 import { MobileContent } from './mobile-content';
 
-const data = {
-  user: {
-    name: "Federico",
-    email: "kkratter@example.com",
-    avatar: "https://avatars.githubusercontent.com/u/70836137?v=4",
+const navItems = [
+  {
+    title: 'Overview',
+    url: '/',
+    icon: Home,
   },
-  navMain: [
-    {
-      title: 'Overview',
-      url: '/',
-      icon: Home,
-    },
-    {
-      title: 'Availabilities',
-      url: '/availabilities',
-      icon: Calendar,
-    },
-    {
-      title: 'Connections',
-      url: '/connections',
-      icon: Users,
-    },
-  ],
-  navSecondary: []
-};
+  {
+    title: 'Availabilities',
+    url: '/availabilities',
+    icon: Calendar,
+  },
+  {
+    title: 'Connections',
+    url: '/connections',
+    icon: Users,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const auth = useAuth();
+
+  const userData = auth
+    ? {
+        name: `${auth.user?.user_metadata.firstname} ${auth.user?.user_metadata.lastname}`,
+        email: auth.user?.email ?? '',
+        avatar: auth.user?.user_metadata.avatar_url ?? '',
+      }
+    : undefined;
+
   return (
     <Sidebar
-      variant="inset" {...props}
-      collapsible="icon" {...props}
+      variant="inset"
+      collapsible="icon"
+      {...props}
       mobileTitle={<MobileTitle />}
-      mobileContent={<MobileContent mainItems={data.navMain} secondaryItems={data.navSecondary} />}
+      mobileContent={<MobileContent mainItems={navItems} secondaryItems={[]} />}
     >
       <SidebarHeader>
         <NavHeader />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
     </Sidebar>
   );

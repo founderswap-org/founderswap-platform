@@ -14,8 +14,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@founderswap/typescript-config": "workspace:*",
-    "turbo": "^2.3.3",
     "@turbo/gen": "^2.3.3",
+    "turbo": "^2.3.3",
     "typescript": "^5.7.2",
     "ultracite": "^4.1.14"
   },
@@ -25,5 +25,9 @@
   "resolutions": {
     "@headlessui/react": "2.2.0"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.48.0"
+  }
 }
