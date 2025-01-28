@@ -1,6 +1,9 @@
 {
   "name": "web",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev -p 3000 --turbopack",
     "build": "next build",
