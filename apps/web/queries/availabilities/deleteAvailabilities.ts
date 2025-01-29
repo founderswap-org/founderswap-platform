@@ -1,4 +1,4 @@
-import type { TypedSupabaseClient } from '@/utils/types';
+import type { TypedSupabaseClient } from '@/types/types';
 
 export async function deleteAvailabilities(supabase: TypedSupabaseClient) {
   try {

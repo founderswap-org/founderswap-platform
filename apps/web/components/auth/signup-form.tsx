@@ -1,23 +1,24 @@
 'use client';
-
+import { signup } from '@/app/(auth)/login/action';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Input } from '@founderswap/design-system/components/ui/input';
 import Link from 'next/link';
 
 export const SignupForm = () => {
-  // const router = useRouter();
-  // const submitMutation = useMutation({
-  //   mutationFn: signUp,
-  //   onSuccess: () => {
-  //     router.push('/confirm');
-  //   },
-  // });
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    try {
+      await signup(formData);
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
 
   return (
-    <form
-      // onSubmit={submitMutation.mutate}
-      className="flex flex-col gap-4 self-center"
-    >
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 self-center">
       <div title="Personal Information">
         <Input
           type="text"
@@ -31,7 +32,12 @@ export const SignupForm = () => {
           name="lastname"
           placeholder="Last Name"
         />
-        <Input type="text" id="company" name="company" placeholder="Company" />
+        <Input
+          type="text"
+          id="company"
+          name="companyName"
+          placeholder="Company"
+        />
       </div>
       <div title="Access Information">
         <Input type="email" id="email" name="email" placeholder="Email" />
