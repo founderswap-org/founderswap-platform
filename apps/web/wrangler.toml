@@ -1,0 +1,14 @@
+compatibility_date = "2024-01-29"
+
+[vars]
+CORS_ORIGIN = "*"
+
+[[headers]]
+for = "/*"
+[headers.values]
+  Access-Control-Allow-Origin = "*"
+  Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+  Access-Control-Allow-Headers = "Content-Type"
+  Cache-Control = "no-store, no-cache, must-revalidate, proxy-revalidate"
+  Pragma = "no-cache"
+  Expires = "0"
