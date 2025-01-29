@@ -14,7 +14,6 @@ import { useAuth } from '@/context/auth';
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from '@founderswap/design-system/components/ui/avatar';
 import {
   DropdownMenu,
@@ -64,10 +63,10 @@ export function NavUser() {
               className="data-[state=open]:bg-item-hover"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage
+                {/* <AvatarImage
                   src={user.avatar}
                   alt={user.app_metadata.initials}
-                />
+                /> */}
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -88,10 +87,10 @@ export function NavUser() {
             <DropdownMenuLabel className="!h-auto p-0 font-normal">
               <div className="text flex items-center gap-2 px-1.5 py-1 text-left text-sm">
                 <Avatar className="size-9 rounded-lg">
-                  <AvatarImage
+                  {/* <AvatarImage
                     src={user.avatar}
                     alt={user.app_metadata.displayName}
-                  />
+                  /> */}
                   <AvatarFallback className="rounded-lg">
                     {user.app_metadata.initials}
                   </AvatarFallback>
