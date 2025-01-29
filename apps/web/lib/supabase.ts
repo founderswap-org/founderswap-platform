@@ -1,5 +1,5 @@
+import type { TypedSupabaseClient } from '@/types/types';
 import type { Database } from '@/utils/database';
-import type { TypedSupabaseClient } from '@/utils/types';
 import { createClient } from '@supabase/supabase-js';
 import { useMemo } from 'react';
 

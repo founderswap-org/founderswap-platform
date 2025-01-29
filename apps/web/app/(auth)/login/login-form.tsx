@@ -2,18 +2,24 @@
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Input } from '@founderswap/design-system/components/ui/input';
 import Link from 'next/link';
+import { login } from './action';
 
 export const LoginForm = () => {
-  // const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.target as HTMLFormElement);
-  //   const email = formData.get('email') as string;
-  //   const password = formData.get('password') as string;
-  //   submitMutation.mutate({ email, password });
-  // };
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    try {
+      // Let's try to login!!!
+      await login(formData);
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
 
   return (
-    <form className="flex flex-col gap-4 self-center">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 self-center">
       <div>
         <Input type="email" id="email" name="email" placeholder="Email" />
         <Input

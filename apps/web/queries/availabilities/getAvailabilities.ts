@@ -1,8 +1,8 @@
+import type { TypedSupabaseClient } from '@/types/types';
 import {
   type Availabilities,
   getFirstAndLastDay,
 } from '@/utils/getNextWeekDays';
-import type { TypedSupabaseClient } from '@/utils/types';
 
 export async function getAvailabilities(
   supabase: TypedSupabaseClient,

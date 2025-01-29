@@ -12,13 +12,13 @@ import type React from 'react';
 import { MobileTitle } from '@/components/ui/mobile-title';
 import { NavHeader } from '@/components/ui/nav-header';
 import { NavMain } from '@/components/ui/nav-main';
-import { NavUser } from '@/components/ui/nav-user';
 import { MobileContent } from './mobile-content';
+import { NavUser } from './nav-user';
 
-const navItems = [
+const NAV_ITEMS = [
   {
     title: 'Overview',
-    url: '/',
+    url: '/dashboard',
     icon: Home,
   },
   {
@@ -33,29 +33,27 @@ const navItems = [
   },
 ];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const userData = {
-    name: 'John Doe',
-    email: 'john.doe@gmail.com',
-    avatar: '',
-  };
+type AppSidebar = React.ComponentProps<typeof Sidebar>;
 
+export function AppSidebar({ ...props }: AppSidebar) {
   return (
     <Sidebar
       variant="inset"
       collapsible="icon"
-      {...props}
       mobileTitle={<MobileTitle />}
-      mobileContent={<MobileContent mainItems={navItems} secondaryItems={[]} />}
+      mobileContent={
+        <MobileContent mainItems={NAV_ITEMS} secondaryItems={[]} />
+      }
+      {...props}
     >
       <SidebarHeader>
         <NavHeader />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navItems} />
+        <NavMain items={NAV_ITEMS} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={userData} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
