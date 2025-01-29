@@ -1,5 +1,6 @@
-import { LoginForm } from '@/app/(auth)/login/login-form';
 import Pictogram from '@/components/ui/pictogram';
+// app/(auth)/login/page.tsx
+import { LoginForm } from './login-form';
 
 export default function LoginPage() {
   return (
@@ -8,7 +9,7 @@ export default function LoginPage() {
       <div className="m-10 max-w-screen-md rounded-xl border border-border bg-elevated p-4 shadow-md">
         <div>
           <h1>Welcome to Founderswap</h1>
-          <p>The community of startup founders that wants to meet </p>
+          <p>The community of startup founders that wants to meet</p>
         </div>
         <LoginForm />
       </div>
