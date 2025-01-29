@@ -1,8 +1,12 @@
 compatibility_date = "2024-01-29"
 
+pages_build_output_dir = ".vercel/output/static"
+
+# custom vars (optional)
 [vars]
 CORS_ORIGIN = "*"
 
+# custom headers (optional)
 [[headers]]
 for = "/*"
 [headers.values]
