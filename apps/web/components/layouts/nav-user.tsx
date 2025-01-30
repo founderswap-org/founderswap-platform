@@ -11,7 +11,7 @@ import { useTheme } from 'next-themes';
 import React from 'react';
 
 import { logout } from '@/app/(auth)/action';
-// import { useAuth } from '@/context/auth';
+import { useAuth } from '@/context/auth';
 import {
   Avatar,
   AvatarFallback,
@@ -80,7 +80,7 @@ export function NavUser() {
                 </AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className="line-clamp-1 font-semibold">
+                <span className='truncate font-semibold'>
                   {user.app_metadata.displayName}
                 </span>
                 <span className="line-clamp-1 text-xs">{user.email}</span>
