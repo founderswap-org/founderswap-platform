@@ -1,7 +1,4 @@
 'use client';
-
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from '@founderswap/design-system/components/ui/toast';
 import {
   ChevronsUpDown,
   LogOut,
@@ -11,13 +8,12 @@ import {
   SunIcon,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import { useAuth } from '@/context/auth';
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from '@founderswap/design-system/components/ui/avatar';
 import {
   DropdownMenu,
@@ -44,39 +40,18 @@ const themes = [
   { label: 'System theme', value: 'system', icon: Monitor },
 ];
 
-interface NavUserProps {
-  user?: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}
-
-export function NavUser({ user }: NavUserProps) {
-  if (!user) return null;
+export function NavUser() {
+  const { user } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { isMobile, state } = useSidebar();
-  const auth = useAuth();
-  const router = useRouter();
+  const { isMobile } = useSidebar();
 
-  const handleLogout = async () => {
-    try {
-      await auth?.signOut();
-      router.refresh();
-      router.push('/login');
-      toast('Logged out successfully');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('Error during logout');
-    }
-  };
+  const handleLogout = async () => {};
 
   const currentTheme = React.useMemo(() => {
     return themes.find((t) => t.value === theme) ?? themes[2];
   }, [theme]);
 
   const Icon = currentTheme.icon;
-  const initials = user.name.slice(0, 2);
 
   return (
     <SidebarMenu>
@@ -88,11 +63,16 @@ export function NavUser({ user }: NavUserProps) {
               className="data-[state=open]:bg-item-hover"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                {/* <AvatarImage
+                  src={user.avatar}
+                  alt={user.app_metadata.initials}
+                /> */}
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
+                <span className="truncate font-semibold">
+                  {user.app_metadata.displayName}
+                </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -107,13 +87,18 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuLabel className="!h-auto p-0 font-normal">
               <div className="text flex items-center gap-2 px-1.5 py-1 text-left text-sm">
                 <Avatar className="size-9 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  {/* <AvatarImage
+                    src={user.avatar}
+                    alt={user.app_metadata.displayName}
+                  /> */}
                   <AvatarFallback className="rounded-lg">
-                    {user.name.slice(0, 2)}
+                    {user.app_metadata.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
+                  <span className="truncate font-semibold">
+                    {user.app_metadata.displayName}
+                  </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>

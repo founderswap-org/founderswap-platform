@@ -1,46 +1,52 @@
-'use server';
+'use server'
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utils/supabase/server'
+import type { SignUpWithPasswordCredentials } from '@supabase/supabase-js'
 
 export async function login(formData: FormData) {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-  };
-
-  const { error } = await supabase.auth.signInWithPassword(data);
-
-  if (error) {
-    redirect('/error');
   }
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  const { error } = await supabase.auth.signInWithPassword(data)
+
+  if (error) {
+    redirect('/error')
+  }
+
+  revalidatePath('/', 'layout')
+  redirect('/dashboard')
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
+  const data: SignUpWithPasswordCredentials = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-  };
-
-  const { error } = await supabase.auth.signUp(data);
-
-  if (error) {
-    redirect('/error');
+    options: {
+      data: {
+        firstName: formData.get('firstname') as string,
+        lastName: formData.get('lastname') as string,
+        companyName: formData.get('companyName') as string
+      }
+    }
   }
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  const { error } = await supabase.auth.signUp(data)
+
+  if (error) {
+    redirect('/error')
+  }
+
+  revalidatePath('/', 'layout')
+  redirect('/dashboard')
 }

@@ -14,6 +14,6 @@ export const config = {
      * - favicon.ico
      * Puoi modificare lo pattern come preferisci.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icon(?:\\?.*)?|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
