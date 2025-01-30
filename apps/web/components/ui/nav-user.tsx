@@ -53,6 +53,10 @@ export function NavUser() {
 
   const Icon = currentTheme.icon;
 
+  // const avatarImageComponent= () => (
+  //   <AvatarImage src={user.avatar} alt={user.app_metadata.displayName} />
+  // );
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -63,15 +67,14 @@ export function NavUser() {
               className="data-[state=open]:bg-item-hover"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                {/* <AvatarImage
-                  src={user.avatar}
-                  alt={user.app_metadata.initials}
-                /> */}
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                {/* {avatarImageComponent} */}
+                <AvatarFallback className="rounded-lg">
+                  {user.user_metadata.initials}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">
-                  {user.app_metadata.displayName}
+                  {user.user_metadata.display_name}
                 </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
@@ -87,17 +90,15 @@ export function NavUser() {
             <DropdownMenuLabel className="!h-auto p-0 font-normal">
               <div className="text flex items-center gap-2 px-1.5 py-1 text-left text-sm">
                 <Avatar className="size-9 rounded-lg">
-                  {/* <AvatarImage
-                    src={user.avatar}
-                    alt={user.app_metadata.displayName}
-                  /> */}
+                  {/* // TODO: Add avatar image */}
+                  {/* {avatarImageComponent} */}
                   <AvatarFallback className="rounded-lg">
                     {user.app_metadata.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
-                    {user.app_metadata.displayName}
+                    {user.app_metadata.display_name}
                   </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
@@ -130,7 +131,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
-              Log out
+              Log out {/* // TODO:  connect logout action*/}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

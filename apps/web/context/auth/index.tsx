@@ -1,18 +1,17 @@
 'use client';
-
-import type { User } from '@supabase/supabase-js';
+import type { CustomUser } from '@/types/user';
 import type React from 'react';
 import { type ReactNode, createContext, useContext } from 'react';
 
-interface AuthContextProps {
-  user: User;
-}
-
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+type AuthContextProps = {
+  user: CustomUser;
+};
 
 export const AuthProvider: React.FC<{
   children: ReactNode;
-  user: User;
+  user: CustomUser;
 }> = ({ children, user }) => {
   return (
     <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>

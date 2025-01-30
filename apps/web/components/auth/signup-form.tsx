@@ -23,19 +23,19 @@ export const SignupForm = () => {
         <Input
           type="text"
           id="firstname"
-          name="firstname"
+          name="first_name"
           placeholder="First Name"
         />
         <Input
           type="text"
           id="lastname"
-          name="lastname"
+          name="last_name"
           placeholder="Last Name"
         />
         <Input
           type="text"
           id="company"
-          name="companyName"
+          name="company_name"
           placeholder="Company"
         />
       </div>

@@ -1,14 +1,14 @@
 'use client';
 
 import { AuthProvider } from '@/context/auth';
-import type { User } from '@supabase/supabase-js';
+import type { CustomUser } from '@/types/user';
 
 export default function AuthProviderWrapper({
   children,
   user,
 }: {
   children: React.ReactNode;
-  user: User;
+  user: CustomUser;
 }) {
   return <AuthProvider user={user}>{children}</AuthProvider>;
 }

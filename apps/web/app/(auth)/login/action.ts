@@ -34,9 +34,9 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
     options: {
       data: {
-        firstName: formData.get('firstname') as string,
-        lastName: formData.get('lastname') as string,
-        companyName: formData.get('companyName') as string
+        first_name: formData.get('first_name') as string,
+        last_name: formData.get('last_name') as string,
+        company_name: formData.get('company_name') as string
       }
     }
   }
