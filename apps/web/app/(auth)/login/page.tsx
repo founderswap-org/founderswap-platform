@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { LoginForm } from '@/app/(auth)/login/login-form';
 import Pictogram from '@/components/ui/pictogram';
 
