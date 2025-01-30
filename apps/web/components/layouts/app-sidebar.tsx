@@ -13,11 +13,19 @@ import {
 } from 'lucide-react';
 import type React from 'react';
 
+<<<<<<< Updated upstream:apps/web/components/ui/app-sidebar.tsx
 import { MobileTitle } from '@/components/ui/mobile-title';
 import { NavHeader } from '@/components/ui/nav-header';
 import { NavMain } from '@/components/ui/nav-main';
 import { NavUser } from '@/components/ui/nav-user';
 import { MobileContent } from './mobile-content';
+=======
+import { MobileContent } from '@/components/layouts/mobile-content';
+import { MobileTitle } from '@/components/layouts/mobile-title';
+import { NavHeader } from '@/components/layouts/nav-header';
+import { NavMain } from '@/components/layouts/nav-main';
+import { NavUser } from '@/components/layouts/nav-user';
+>>>>>>> Stashed changes:apps/web/components/layouts/app-sidebar.tsx
 
 const data = {
   user: {
