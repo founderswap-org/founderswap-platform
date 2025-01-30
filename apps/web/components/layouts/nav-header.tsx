@@ -29,10 +29,7 @@ export function NavHeader() {
             >
               <Link
                 href="/"
-                className={cn(
-                  'z-50 w-auto rounded-lg border border-item bg-muted',
-                  focusRing
-                )}
+                className={cn('z-50 w-auto rounded-lg border border-item bg-muted', focusRing)}
               >
                 <Pictogram size={32} />
               </Link>

@@ -10,6 +10,7 @@ import {
 import { useTheme } from 'next-themes';
 import React from 'react';
 
+import { logout } from '@/app/(auth)/action';
 import { useAuth } from '@/context/auth';
 import {
   Avatar,
@@ -33,6 +34,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@founderswap/design-system/components/ui/sidebar';
+import Link from 'next/link';
 
 const themes = [
   { label: 'Light theme', value: 'light', icon: SunIcon },
@@ -45,7 +47,13 @@ export function NavUser() {
   const { theme, setTheme } = useTheme();
   const { isMobile } = useSidebar();
 
-  const handleLogout = async () => {};
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   const currentTheme = React.useMemo(() => {
     return themes.find((t) => t.value === theme) ?? themes[2];
@@ -62,56 +70,60 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-item-hover"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className='h-8 w-8 rounded-lg'>
                 {/* <AvatarImage
                   src={user.avatar}
                   alt={user.app_metadata.initials}
                 /> */}
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg uppercase">
+                  {user.email?.charAt(0)}
+                </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
+              <div className='grid flex-1 text-left text-sm leading-tight'>
+                <span className='truncate font-semibold'>
                   {user.app_metadata.displayName}
                 </span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="line-clamp-1 text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className="ml-auto size-4 stroke-icon" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="!h-auto p-0 font-normal">
-              <div className="text flex items-center gap-2 px-1.5 py-1 text-left text-sm">
-                <Avatar className="size-9 rounded-lg">
+            <DropdownMenuLabel className='!h-auto p-0 font-normal'>
+              <div className='text flex items-center gap-2 px-1.5 py-1 text-left text-sm'>
+                <Avatar className='size-9 rounded-lg'>
                   {/* <AvatarImage
                     src={user.avatar}
                     alt={user.app_metadata.displayName}
                   /> */}
                   <AvatarFallback className="rounded-lg">
-                    {user.app_metadata.initials}
+                    {user.email?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
+                <div className='grid flex-1 text-left text-sm leading-tight'>
+                  <span className='truncate font-semibold'>
                     {user.app_metadata.displayName}
                   </span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className='truncate text-xs'>{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Settings />
-                Settings
-              </DropdownMenuItem>
+              <Link href="/settings">
+                <DropdownMenuItem>
+                  <Settings />
+                  Settings
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuSubMenu>
                 <DropdownMenuSubMenuTrigger>
-                  <Icon className="size-[1.2rem] transition-all duration-200" />
+                  <Icon className='size-[1.2rem] transition-all duration-200' />
                   {currentTheme.label}
                 </DropdownMenuSubMenuTrigger>
                 <DropdownMenuSubMenuContent className="min-w-48">

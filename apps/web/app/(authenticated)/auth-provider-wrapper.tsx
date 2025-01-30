@@ -2,6 +2,7 @@
 
 import { AuthProvider } from '@/context/auth';
 import type { User } from '@supabase/supabase-js';
+import type React from 'react';
 
 export default function AuthProviderWrapper({
   children,

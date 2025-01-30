@@ -12,8 +12,6 @@ import { Input } from '@founderswap/design-system/components/ui/input';
 import { Separator } from '@founderswap/design-system/components/ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@founderswap/design-system/components/ui/sheet';
 import { Skeleton } from '@founderswap/design-system/components/ui/skeleton';
-import type { User } from '@supabase/supabase-js';
-
 import {
   Tooltip,
   TooltipProvider,
@@ -28,7 +26,6 @@ const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
 type SidebarContext = {
-
   state: 'expanded' | 'collapsed';
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -117,9 +114,6 @@ const SidebarProvider = React.forwardRef<
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? 'expanded' : 'collapsed';
-
-    
-
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({

@@ -1,7 +1,8 @@
 'use client';
-import { signup } from '@/app/(auth)/login/action';
+import { signup } from '@/app/(auth)/action';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Input } from '@founderswap/design-system/components/ui/input';
+import { Separator } from '@founderswap/design-system/components/ui/separator';
 import Link from 'next/link';
 
 export const SignupForm = () => {
@@ -18,8 +19,11 @@ export const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 self-center">
-      <div title="Personal Information">
+    <form
+      onSubmit={onSubmit}
+      className="flex w-full flex-col gap-6 self-center"
+    >
+      <div className="flex flex-col gap-3" title="Personal Information">
         <Input
           type="text"
           id="firstname"
@@ -39,7 +43,8 @@ export const SignupForm = () => {
           placeholder="Company"
         />
       </div>
-      <div title="Access Information">
+      <Separator />
+      <div className="flex flex-col gap-3" title="Access Information">
         <Input type="email" id="email" name="email" placeholder="Email" />
         <Input
           type="password"
@@ -49,18 +54,15 @@ export const SignupForm = () => {
         />
       </div>
       <Button type="submit">Sign Up</Button>
-
-      <Button variant="link">
-        <Link href="/login">
-          Already have an account? <p className="underline">Sign In</p>
-        </Link>
-      </Button>
-
-      {/* {submitMutation.isError && (
-        <p className="text-center text-destructive">
-          {submitMutation.error.message}
-        </p>
-      )} */}
+      <Separator />
+      <div className="flex flex-col">
+        <span className="text-center text-description text-sm">
+          Already have an account?
+        </span>
+        <Button variant="link" asChild>
+          <Link href="/login">Login</Link>
+        </Button>
+      </div>
     </form>
   );
 };
