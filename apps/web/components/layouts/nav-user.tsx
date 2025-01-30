@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 "use client"
 
 import {
@@ -38,12 +39,46 @@ import {
     useSidebar,
 } from "@founderswap/design-system/components/ui/sidebar"
 =======
+=======
+'use client';
+import {
+  ChevronsUpDown,
+  LogOut,
+  Monitor,
+  MoonIcon,
+  Settings,
+  SunIcon,
+} from 'lucide-react';
+import { useTheme } from 'next-themes';
+import React from 'react';
+
+import { logout } from '@/app/(auth)/action';
+import { useAuth } from '@/context/auth';
+import {
+  Avatar,
+  AvatarFallback,
+} from '@founderswap/design-system/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSubMenu,
+  DropdownMenuSubMenuContent,
+  DropdownMenuSubMenuTrigger,
+  DropdownMenuTrigger,
+} from '@founderswap/design-system/components/ui/dropdown-menu';
+import {
+>>>>>>> Stashed changes
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from '@founderswap/design-system/components/ui/sidebar';
 import Link from 'next/link';
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes:apps/web/components/layouts/nav-user.tsx
 
 const themes = [
@@ -70,6 +105,20 @@ export function NavUser({
         return themes.find((t) => t.value === theme) ?? themes[2];
     }, [theme]);
 =======
+=======
+
+const themes = [
+  { label: 'Light theme', value: 'light', icon: SunIcon },
+  { label: 'Dark theme', value: 'dark', icon: MoonIcon },
+  { label: 'System theme', value: 'system', icon: Monitor },
+];
+
+export function NavUser() {
+  const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const { isMobile } = useSidebar();
+
+>>>>>>> Stashed changes
   const handleLogout = async () => {
     try {
       await logout();
@@ -77,6 +126,7 @@ export function NavUser({
       console.error('Error logging out:', error);
     }
   };
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes:apps/web/components/layouts/nav-user.tsx
 
     const Icon = currentTheme.icon;
@@ -108,6 +158,13 @@ export function NavUser({
                         align="end"
                         sideOffset={4}
 =======
+=======
+
+  const currentTheme = React.useMemo(() => {
+    return themes.find((t) => t.value === theme) ?? themes[2];
+  }, [theme]);
+
+>>>>>>> Stashed changes
   const Icon = currentTheme.icon;
 
   return (
@@ -180,6 +237,7 @@ export function NavUser({
                     <DropdownMenuItem
                       key={value}
                       onClick={() => setTheme(value)}
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes:apps/web/components/layouts/nav-user.tsx
                     >
                         <DropdownMenuLabel className='!h-auto p-0 font-normal'>
@@ -226,3 +284,24 @@ export function NavUser({
         </SidebarMenu>
     )
 }
+=======
+                    >
+                      <Icon className="mr-2 size-4" />
+                      {label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubMenuContent>
+              </DropdownMenuSubMenu>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+>>>>>>> Stashed changes
