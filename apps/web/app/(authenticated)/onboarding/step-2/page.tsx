@@ -6,13 +6,15 @@ import { OnboardingCard } from '@/components/onboarding/onboarding-card';
 
 export default function OnboardingStep2() {
   return (
-    <OnboardingCard
-      title="What are you interested in?"
-      description="Tell us about your interests and skills"
-      step={2}
-      totalSteps={3}
-    >
-      <InterestsSkillsForm onSubmit={updateOnboardingStep2} />
-    </OnboardingCard>
+    <div className="flex w-full flex-col items-center justify-center gap-4">
+      <OnboardingCard
+        title="What are you interested in?"
+        description="Tell us about your interests and skills"
+        step={2}
+        totalSteps={3}
+      >
+        <InterestsSkillsForm onSubmit={updateOnboardingStep2} />
+      </OnboardingCard>
+    </div>
   );
 }

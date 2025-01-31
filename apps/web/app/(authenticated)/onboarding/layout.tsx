@@ -1,5 +1,6 @@
 'use server';
-
+import { OnboardingLayout as OnboardingHeader } from '@/components/layouts/onboarding-layout';
+import type { Step } from '@/components/onboarding/step-progress';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import type React from 'react';
@@ -16,12 +17,18 @@ export default async function OnboardingLayout({
     redirect('/login');
   }
 
-  // Qui puoi aggiungere logica per verificare lo step corrente
-  // e reindirizzare l'utente allo step appropriato
+  const steps: Step[] = [
+    { name: 'Step 1', href: '/onboarding/step-1' },
+    { name: 'Step 2', href: '/onboarding/step-2' },
+    { name: 'Step 3', href: '/onboarding/step-3' },
+  ];
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-background py-10">
-      {children}
+    <div className="min-h-screen min-w-screen bg-background">
+      <OnboardingHeader steps={steps} />
+      <main id="main-content" className="mx-auto min-w-[520px] pt-28 pb-20">
+        {children}
+      </main>
     </div>
   );
 }

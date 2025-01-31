@@ -154,7 +154,7 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      <Card className="top-0 flex max-h-fit w-full flex-col gap-4 lg:sticky lg:w-1/3">
+      <Card className="flex max-h-fit w-full flex-col gap-4 lg:sticky lg:top-10 lg:w-1/3">
         <div className="flex w-full flex-col gap-1">
           <h3 className="font-brand font-semibold text-brand text-xl">
             Share FounderSwap
