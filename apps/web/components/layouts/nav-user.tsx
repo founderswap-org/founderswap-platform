@@ -61,6 +61,10 @@ export function NavUser() {
 
   const Icon = currentTheme.icon;
 
+  // const avatarImageComponent= () => (
+  //   <AvatarImage src={user.avatar} alt={user.app_metadata.displayName} />
+  // );
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -70,7 +74,7 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-item-hover"
             >
-              <Avatar className='h-8 w-8 rounded-lg'>
+              <Avatar className="h-8 w-8 rounded-lg">
                 {/* <AvatarImage
                   src={user.avatar}
                   alt={user.app_metadata.initials}
@@ -79,8 +83,8 @@ export function NavUser() {
                   {user.email?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-              <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">
                   {user.app_metadata.displayName}
                 </span>
                 <span className="line-clamp-1 text-xs">{user.email}</span>
@@ -89,14 +93,14 @@ export function NavUser() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className='!h-auto p-0 font-normal'>
-              <div className='text flex items-center gap-2 px-1.5 py-1 text-left text-sm'>
-                <Avatar className='size-9 rounded-lg'>
+            <DropdownMenuLabel className="!h-auto p-0 font-normal">
+              <div className="text flex items-center gap-2 px-1.5 py-1 text-left text-sm">
+                <Avatar className="size-9 rounded-lg">
                   {/* <AvatarImage
                     src={user.avatar}
                     alt={user.app_metadata.displayName}
@@ -105,11 +109,11 @@ export function NavUser() {
                     {user.email?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-                <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">
                     {user.app_metadata.displayName}
                   </span>
-                  <span className='truncate text-xs'>{user.email}</span>
+                  <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -123,7 +127,7 @@ export function NavUser() {
               </Link>
               <DropdownMenuSubMenu>
                 <DropdownMenuSubMenuTrigger>
-                  <Icon className='size-[1.2rem] transition-all duration-200' />
+                  <Icon className="size-[1.2rem] transition-all duration-200" />
                   {currentTheme.label}
                 </DropdownMenuSubMenuTrigger>
                 <DropdownMenuSubMenuContent className="min-w-48">
@@ -142,7 +146,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
-              Log out
+              Log out {/* // TODO:  connect logout action*/}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

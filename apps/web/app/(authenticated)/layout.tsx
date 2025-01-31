@@ -1,4 +1,5 @@
 'use server';
+import type { CustomUser } from '@/types/user';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import type React from 'react';
@@ -13,6 +14,15 @@ export default async function Layout({
   if (error || !data?.user) {
     redirect('/login');
   }
+  const firstName = data.user.user_metadata.first_name;
+  const lastName = data.user.user_metadata.last_name;
 
-  return <AuthProviderWrapper user={data.user}>{children}</AuthProviderWrapper>;
+  data.user.user_metadata.initials = firstName[0] + lastName[0];
+  data.user.user_metadata.display_name = `${firstName} ${lastName}`;
+
+  return (
+    <AuthProviderWrapper user={data.user as CustomUser}>
+      {children}
+    </AuthProviderWrapper>
+  );
 }
