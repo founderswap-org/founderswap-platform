@@ -5,7 +5,6 @@ import {
 } from '@founderswap/design-system/components/ui/avatar';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Card } from '@founderswap/design-system/components/ui/card';
-import { Separator } from '@founderswap/design-system/components/ui/separator';
 import {
   Sheet,
   SheetBody,
@@ -90,7 +89,7 @@ export default function ConnectionsPage() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
           </p>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {mockData.map((item) => (
             <Sheet key={item.id}>
@@ -131,7 +130,7 @@ export default function ConnectionsPage() {
                       <Tag key={tag}>{tag}</Tag>
                     ))}
                   </div>
-                  <Separator />
+                  {/* <Separator /> */}
                   <p className="p-1 text-description text-sm">
                     {item.description}
                   </p>

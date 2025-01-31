@@ -1,3 +1,5 @@
+'use-client';
+
 import Link from 'next/link';
 
 import { SheetClose } from '@founderswap/design-system/components/ui/sheet';
