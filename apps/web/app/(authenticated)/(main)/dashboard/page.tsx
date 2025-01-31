@@ -8,7 +8,6 @@ import {
 } from '@founderswap/design-system/components/ui/avatar';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Card } from '@founderswap/design-system/components/ui/card';
-import { Separator } from '@founderswap/design-system/components/ui/separator';
 import { Tag } from '@founderswap/design-system/components/ui/tag';
 import { ClockIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -73,14 +72,14 @@ export default function OverviewPage() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
           </p>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="w-full rounded-2xl border border-border bg-subtle">
           <div className="flex items-center px-6 py-4">
             <div className="flex h-9 items-center justify-center">
               <p className="font-semibold text-xl">Upcoming</p>
             </div>
           </div>
-          <Separator />
+          {/* <Separator /> */}
           <div className="flex p-6">
             <Card className="flex flex-row items-center gap-4 border-0 bg-transparent p-0 shadow-none">
               <Avatar className="size-20 rounded-xl">
@@ -112,7 +111,7 @@ export default function OverviewPage() {
             </Card>
           </div>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="w-full rounded-2xl border border-border bg-subtle">
           <div className="flex items-center justify-between gap-4 px-6 py-4">
             <p className="font-semibold text-xl">Recent connections</p>
@@ -120,7 +119,7 @@ export default function OverviewPage() {
               <Link href="/connections">View all</Link>
             </Button>
           </div>
-          <Separator />
+          {/* <Separator /> */}
           <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
             {mockData.slice(0, 4).map((item) => (
               <Card
