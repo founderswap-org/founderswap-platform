@@ -1,9 +1,9 @@
+export const runtime = 'edge';
+
+import Test from '@/components/test';
 import { Button } from '@founderswap/design-system/components/ui/button';
-import { Separator } from '@founderswap/design-system/components/ui/separator';
 import { Toggle } from '@founderswap/design-system/components/ui/toggle';
 import { ToggleGroup } from '@founderswap/design-system/components/ui/toggle-group';
-
-export const runtime = 'edge';
 
 export default function AvailabilitiesPage() {
   return (
@@ -17,7 +17,7 @@ export default function AvailabilitiesPage() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
           </p>
         </div>
-        <Separator />
+        <Test />
         <div className="flex w-full flex-col gap-6">
           <div className="flex w-full flex-col items-start justify-start gap-4 md:flex-row lg:items-center">
             <div className="flex w-1/5 min-w-40 flex-col gap-1 md:py-4">
@@ -43,7 +43,7 @@ export default function AvailabilitiesPage() {
             </ToggleGroup>
           </div>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="flex w-full flex-col gap-6">
           <div className="flex w-full flex-col items-start justify-start gap-4 md:flex-row lg:items-center">
             <div className="flex w-1/5 min-w-40 flex-col gap-1 md:py-4">
@@ -69,7 +69,7 @@ export default function AvailabilitiesPage() {
             </ToggleGroup>
           </div>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="flex w-full flex-col gap-6">
           <div className="flex w-full flex-col items-start justify-start gap-4 md:flex-row lg:items-center">
             <div className="flex w-1/5 min-w-40 flex-col gap-1 md:py-4">
@@ -95,7 +95,7 @@ export default function AvailabilitiesPage() {
             </ToggleGroup>
           </div>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="flex w-full flex-col gap-6">
           <div className="flex w-full flex-col items-start justify-start gap-4 md:flex-row lg:items-center">
             <div className="flex w-1/5 min-w-40 flex-col gap-1 md:py-4">
@@ -121,7 +121,7 @@ export default function AvailabilitiesPage() {
             </ToggleGroup>
           </div>
         </div>
-        <Separator />
+        {/* <Separator /> */}
         <div className="flex w-full">
           <Button>Send preferences</Button>
         </div>
