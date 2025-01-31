@@ -1,4 +1,5 @@
 'use client';
+export const runtime = 'edge';
 
 import { updateProfile } from '@/app/(authenticated)/(main)/settings/actions';
 import { RoleExperienceForm } from '@/components/forms/profile/role-experience-form';
