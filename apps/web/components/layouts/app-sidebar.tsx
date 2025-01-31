@@ -9,11 +9,11 @@ import {
 import { Calendar, Home, Users } from 'lucide-react';
 import type React from 'react';
 
-import { MobileTitle } from '@/components/ui/mobile-title';
-import { NavHeader } from '@/components/ui/nav-header';
-import { NavMain } from '@/components/ui/nav-main';
-import { MobileContent } from './mobile-content';
-import { NavUser } from './nav-user';
+import { MobileContent } from '@/components/layouts/mobile-content';
+import { MobileTitle } from '@/components/layouts/mobile-title';
+import { NavHeader } from '@/components/layouts/nav-header';
+import { NavMain } from '@/components/layouts/nav-main';
+import { NavUser } from '@/components/layouts/nav-user';
 
 const NAV_ITEMS = [
   {

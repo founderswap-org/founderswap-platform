@@ -1,18 +1,14 @@
 export const runtime = 'edge';
-import { LoginForm } from '@/app/(auth)/login/login-form';
-import Pictogram from '@/components/ui/pictogram';
+import { AuthCard } from '@/components/auth/card';
+import { LoginForm } from '@/components/auth/login-form';
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col items-center justify-center gap-10">
-      <Pictogram size={40} />
-      <div className="m-10 max-w-screen-md rounded-xl border border-border bg-elevated p-4 shadow-md">
-        <div>
-          <h1>Welcome to Founderswap</h1>
-          <p>The community of startup founders that wants to meet </p>
-        </div>
-        <LoginForm />
-      </div>
-    </div>
+    <AuthCard
+      title="Welcome back on board!"
+      description="Let’s get you back to exploring."
+    >
+      <LoginForm />
+    </AuthCard>
   );
 }

@@ -1,5 +1,4 @@
-import { Inter } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Inter, Rubik } from 'next/font/google'
 import { cn } from '@founderswap/design-system/lib/utils';
 
 const sansFont = Inter({
@@ -8,8 +7,9 @@ const sansFont = Inter({
   variable: "--font-sans",
 });
 
-const brandFont = localFont({
-  src: '../fonts/brand.woff2',
+const brandFont = Rubik({
+  subsets: ['latin'],
+  display: 'swap',
   variable: '--font-brand',
 });
 
@@ -18,4 +18,3 @@ export const fonts = cn(
   brandFont.variable,
   'touch-manipulation font-sans antialiased'
 );
-

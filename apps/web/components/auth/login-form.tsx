@@ -1,8 +1,9 @@
 'use client';
+import { login } from '@/app/(auth)/action';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Input } from '@founderswap/design-system/components/ui/input';
+import { Separator } from '@founderswap/design-system/components/ui/separator';
 import Link from 'next/link';
-import { login } from './action';
 
 export const LoginForm = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,8 +20,11 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 self-center">
-      <div>
+    <form
+      onSubmit={onSubmit}
+      className="flex w-full flex-col gap-6 self-center"
+    >
+      <div className="flex flex-col gap-3">
         <Input type="email" id="email" name="email" placeholder="Email" />
         <Input
           type="password"
@@ -29,13 +33,16 @@ export const LoginForm = () => {
           placeholder="Password"
         />
       </div>
-      <Button type="submit">Sign In</Button>
-
-      <Button variant="link">
-        <Link href="/signup">
-          Don't you have an account yet? <p className="underline">Sign Up</p>
-        </Link>
-      </Button>
+      <Button type="submit">Login</Button>
+      <Separator />
+      <div className="flex flex-col">
+        <span className="text-center text-description text-sm">
+          Don't you have an account yet?
+        </span>
+        <Button variant="link" asChild>
+          <Link href="/signup">Sign Up</Link>
+        </Button>
+      </div>
     </form>
   );
 };
