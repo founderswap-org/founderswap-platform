@@ -40,7 +40,7 @@ jobs:
         run: supabase link --project-ref $SUPABASE_PROJECT_REF_PROD
         env:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
-
+          #
       - name: Apply Supabase migrations
         run: supabase db push --password $SUPABASE_DB_PASSWORD_PROD --debug
         env:
