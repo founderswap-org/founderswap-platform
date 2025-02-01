@@ -2,9 +2,10 @@
 
 type PictogramProps = {
   size?: number;
+  className?: string;
 };
 
-const Pictogram = ({ size }: PictogramProps) => {
+const Pictogram = ({ size, className }: PictogramProps) => {
   return (
     <svg
       width={size}
@@ -14,6 +15,7 @@ const Pictogram = ({ size }: PictogramProps) => {
       aria-label="Founderswap Logo"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <g clipPath="url(#clip0_12226_19363)">
         <path

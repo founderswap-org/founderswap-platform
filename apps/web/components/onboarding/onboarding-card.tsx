@@ -1,6 +1,7 @@
 'use client';
 
-import { Card } from '@founderswap/design-system/components/ui/card';
+import { Separator } from '@founderswap/design-system/components/ui/separator';
+import type React from 'react';
 
 interface OnboardingCardProps {
   title: string;
@@ -14,19 +15,33 @@ export function OnboardingCard({
   title,
   description,
   children,
-  step,
-  totalSteps,
 }: OnboardingCardProps) {
   return (
-    <Card className="w-full max-w-lg p-8">
-      <div className="mb-6">
-        <div className="mb-2 text-muted-foreground text-sm">
-          Step {step} of {totalSteps}
-        </div>
-        <h1 className="font-semibold text-2xl">{title}</h1>
-        <p className="text-muted-foreground">{description}</p>
+    <div className="relative z-10 flex min-w-[520px] flex-col gap-6 sm:m-10">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-brand font-semibold text-2xl">{title}</h1>
+        <p className="text-description text-sm">{description}</p>
       </div>
+      <Separator />
       {children}
-    </Card>
+    </div>
   );
 }
+/*
+gender;
+company;
+size;
+industry?
+role
+company
+website;
+company;
+linkedin;
+
+i;
+'m interested in
+
+my skills
+
+areas of interest
+*/
