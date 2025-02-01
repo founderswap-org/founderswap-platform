@@ -1,39 +1,40 @@
-name: Supabase Apply Migrations on Prod
+name: Apply Supabase Migrations
 
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  deploy-migrations:
+  migrate:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install PNPM
-        uses: pnpm/action-setup@v2.2.4
-
-      - name: Setup Node.js 
-        uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: "pnpm"
 
-      - name: Install pnpm using corepack
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Install dependencies
         run: pnpm install
 
       - name: Link Supabase project
-        run: |
-          pnpm run supabase:migrate:link
+        run: pnpm run supabase:migrate:link
         env:
           PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
           SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
 
-      - name: Apply migrations
-        run: pnpm run supabase:migrate:push
+      - name: Apply Supabase migrations
+        run: pnpm run supabase:migrate:apply
+        env:
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
+          SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
