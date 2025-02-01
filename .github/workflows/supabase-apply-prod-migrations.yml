@@ -45,6 +45,4 @@ jobs:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
 
       - name: Apply Supabase migrations
-        run: supabase db push
-        env:
-          SUPABASE_DB_URL_PROD: ${{ secrets.SUPABASE_DB_URL_PROD }}
+        run: supabase db push --debug
