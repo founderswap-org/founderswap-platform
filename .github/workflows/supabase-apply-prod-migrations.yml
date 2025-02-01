@@ -20,11 +20,8 @@ jobs:
           node-version: 20.10
           cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Link Supabase project
         run: |
