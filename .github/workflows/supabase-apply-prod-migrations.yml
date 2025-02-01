@@ -27,23 +27,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Supabase CLI
-        run: |
-          pnpm add -g supabase
-
-      - name: Authenticate with Supabase
-        run: supabase login --token $SUPABASE_TOKEN
-        env:
-          SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+      - name: Install dotenv CLI
+        run: pnpm add -g dotenv-cli
 
       - name: Link Supabase project
-        run: pnpm run supabase:migrate:link
+        run: dotenv -e .env -- pnpm run supabase:migrate:link
         env:
-          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
           SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
 
       - name: Apply Supabase migrations
-        run: pnpm run supabase:migrate:apply
+        run: dotenv -e .env -- pnpm run supabase:migrate:deploy
         env:
-          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
           SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
