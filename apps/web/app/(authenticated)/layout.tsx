@@ -14,11 +14,12 @@ export default async function Layout({
   if (error || !data?.user) {
     redirect('/login');
   }
-  const firstName = data.user.user_metadata.first_name;
-  const lastName = data.user.user_metadata.last_name;
+  const firstName = data.user.user_metadata.first_name || '';
+  const lastName = data.user.user_metadata.last_name || '';
 
-  data.user.user_metadata.initials = firstName[0] + lastName[0];
-  data.user.user_metadata.display_name = `${firstName} ${lastName}`;
+  data.user.user_metadata.initials =
+    (firstName?.[0] || '') + (lastName?.[0] || '');
+  data.user.user_metadata.display_name = `${firstName} ${lastName}`.trim();
 
   return (
     <AuthProviderWrapper user={data.user as CustomUser}>
