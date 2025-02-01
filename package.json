@@ -9,12 +9,18 @@
     "dev": "turbo dev",
     "lint": "ultracite lint",
     "format": "ultracite format",
-    "clean": "git clean -xdf node_modules"
+    "clean": "git clean -xdf node_modules",
+    "supabase:migrate:pull": "supabase db pull",
+    "supabase:migrate:link": "supabase link --project-ref $SUPABASE_PROJECT_REF",
+    "supabase:migrate:setup": "dotenv -e .env -- pnpm run supabase:migrate:link && pnpm run supabase:migrate:pull",
+    "supabase:migrate:push": "supabase db push",
+    "supabase:migrate:deploy": "pnpm run supabase:migrate:link && pnpm run supabase:migrate:push"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@founderswap/typescript-config": "workspace:*",
     "@turbo/gen": "^2.3.3",
+    "dotenv-cli": "^8.0.0",
     "turbo": "^2.3.3",
     "typescript": "^5.7.2",
     "ultracite": "^4.1.14"

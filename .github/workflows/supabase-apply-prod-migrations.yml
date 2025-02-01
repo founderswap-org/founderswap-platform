@@ -1,0 +1,37 @@
+name: Supabase Migrations
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-migrations:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.10'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Link Supabase project
+        run: |
+          pnpm run supabase:migrate:link
+        env:
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
+          SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+
+      - name: Apply migrations
+        run: pnpm run supabase:migrate:push
