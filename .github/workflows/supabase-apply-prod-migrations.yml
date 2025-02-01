@@ -40,12 +40,9 @@ jobs:
           SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
 
       - name: Link Supabase project
-        run: dotenv -e .env -- pnpm run supabase:migrate:link
+        run: supabase link --project-ref $SUPABASE_PROJECT_REF_PROD
         env:
-          SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+          SUPABASE_TOKEN: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
 
       - name: Apply Supabase migrations
-        run: dotenv -e .env --  pnpm run supabase:migrate:apply
-        env:
-          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
-          SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+        run: supabase db push
