@@ -42,5 +42,5 @@ jobs:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
 
       - name: Apply Supabase migrations
-        run: npx supabase db push
+        run: npx supabase db push --dry-run
 
