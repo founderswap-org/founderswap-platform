@@ -47,4 +47,4 @@ jobs:
       - name: Apply Supabase migrations
         run: supabase db push
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL_PROD }}
+          SUPABASE_DB_URL_PROD: ${{ secrets.SUPABASE_DB_URL_PROD }}
