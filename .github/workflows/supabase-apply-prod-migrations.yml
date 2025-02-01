@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Supabase CLI
         run: |
-          pnpm add -g supabase
+          pnpm add -g supabase@1.219.2
 
       - name: Authenticate with Supabase
         run: supabase login --token $SUPABASE_TOKEN
