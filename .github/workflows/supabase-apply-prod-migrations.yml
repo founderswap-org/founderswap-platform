@@ -10,14 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2.2.4
+
+      - name: Setup Node.js 
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.10'
-          cache: 'pnpm'
+          node-version: 20
+          cache: "pnpm"
 
       - name: Install pnpm using corepack
         run: |
