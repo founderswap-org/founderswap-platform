@@ -3,6 +3,9 @@ description: 'Setup Node.js and pnpm'
 runs:
   using: "composite"
   steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Read .nvmrc file
         shell: bash
         id: nvmrc
