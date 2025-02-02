@@ -33,7 +33,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+      
+      - name: Install PNPM
+        run: npm i -g pnpm
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
