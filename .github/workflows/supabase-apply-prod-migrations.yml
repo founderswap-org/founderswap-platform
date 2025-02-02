@@ -6,13 +6,8 @@ on:
       - main
 
 jobs:
-  setup:
-    uses: ./.github/workflows/setup.yml  # Reusable setup
-
   migrate:
-    needs: setup
     runs-on: ubuntu-latest
-
     steps:
 
       - name: Setup environment
