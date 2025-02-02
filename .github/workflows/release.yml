@@ -55,7 +55,6 @@ jobs:
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           
-          # Configura l'identità del commit
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           # Back to project root
