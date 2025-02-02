@@ -5,8 +5,6 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Read .nvmrc file
       id: nvmrc
@@ -24,7 +22,6 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: "pnpm"
 
     - name: Setup pnpm
       shell: bash
