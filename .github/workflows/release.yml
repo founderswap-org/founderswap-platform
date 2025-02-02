@@ -45,7 +45,7 @@ jobs:
           fi
 
           CURRENT_VERSION=$(jq -r .version package.json)
-          NEW_VERSION=$(pnpm version $VERSION_TYPE --no-git-tag-version | tail -n 1)
+          NEW_VERSION=$(pnpm pkg version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
 
           if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
             echo "No version change needed for web"
