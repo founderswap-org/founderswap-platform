@@ -32,18 +32,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Install pnpm using npx
+        run: npx pnpm@8 --version
 
       - name: Verify pnpm installation
-        run: |
-          echo "Verifying pnpm installation..."
-          pnpm --version
-
-      - name: Debug PATH
-        run: echo $PATH
+        run: npx pnpm@8 --version
 
       - name: Install dependencies
-        run: pnpm install
+        run: npx pnpm@8 install
