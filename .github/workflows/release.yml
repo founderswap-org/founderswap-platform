@@ -7,10 +7,8 @@ on:
 
 jobs:
   release:
-   
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -20,7 +18,7 @@ jobs:
       - name: Use pnpm from setup
         run: pnpm --version
         
-      # 🔹 Determine type of versione (patch/minor/major) from PR title
+      # 🔹 Determine type of version (patch/minor/major) from PR title
       - name: Determine version type from PR title
         if: github.event_name == 'pull_request'
         run: |
@@ -36,16 +34,14 @@ jobs:
           
       - name: Increment version only if needed
         run: |
-          cd apps/web  # ✅ APP PATH
-
-          # check package.json has version, otherwise add it
-          if ! jq -e '.version' package.json > /dev/null; then
+          # Verifica e modifica il file corretto
+          if ! jq -e '.version' apps/web/package.json > /dev/null; then
             echo "No version found in package.json. Setting default version to 1.0.0."
-            jq '. + {version: "1.0.0"}' package.json > tmp.json && mv tmp.json package.json
+            jq '. + {version: "1.0.0"}' apps/web/package.json > tmp.json && mv tmp.json apps/web/package.json
           fi
 
-          CURRENT_VERSION=$(jq -r .version package.json)
-          NEW_VERSION=$(pnpm pkg version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
+          CURRENT_VERSION=$(jq -r .version apps/web/package.json)
+          NEW_VERSION=$(pnpm -C apps/web pkg version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
 
           if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
             echo "No version change needed for web"
@@ -54,20 +50,20 @@ jobs:
 
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          
+
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          # Back to project root
-          cd ../../
-          
-          # Add modified files
-          git add .
+          git add apps/web/package.json
           git commit -m "chore: bump web to $NEW_VERSION"
+
+      - name: Debug NEW_VERSION
+        run: |
+          echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
+          echo "Current directory: $(pwd)"
 
       - name: Create and push release branch
         if: env.NEW_VERSION != ''
         run: |
-          
           # Remove prefix "v" from version if exists
           CLEAN_VERSION=$(echo "${{ env.NEW_VERSION }}" | sed 's/^v//')
           RELEASE_BRANCH="release/v$CLEAN_VERSION"
@@ -79,7 +75,6 @@ jobs:
       - name: Create and push tag
         if: env.NEW_VERSION != ''
         run: |
-          cd apps/web
           TAG_NAME="web-v${{ env.NEW_VERSION }}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
@@ -99,8 +94,7 @@ jobs:
       - name: Create and push next release branch
         if: env.NEW_VERSION != ''
         run: |
-          cd apps/web
-          NEXT_VERSION=$(pnpm version patch --no-git-tag-version | tail -n 1)
+          NEXT_VERSION=$(pnpm -C apps/web version patch --no-git-tag-version | tail -n 1)
           NEXT_BRANCH="release/v$NEXT_VERSION"
           
           echo "Creating next release branch: $NEXT_BRANCH"
