@@ -33,10 +33,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install pnpm using npx
-        run: npx pnpm@8 --version
+        run: npx pnpm --version
 
       - name: Verify pnpm installation
         run: npx pnpm@8 --version
 
       - name: Install dependencies
-        run: npx pnpm@8 install
+        run: npx pnpm install
