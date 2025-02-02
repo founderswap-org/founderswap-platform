@@ -3,8 +3,14 @@ description: 'Setup Node.js and pnpm'
 runs:
   using: "composite"
   steps:
-    - name: Checkout repository
+    - name: Checkout
       uses: actions/checkout@v4
+
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      with:
+        version: 8
+        run_install: false
 
     - name: Read .nvmrc file
       id: nvmrc
@@ -22,10 +28,6 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-
-    - name: Setup pnpm
-      shell: bash
-      run: npm install -g pnpm
 
     - name: Install dependencies
       shell: bash
