@@ -13,10 +13,8 @@ jobs:
     outputs:
       node_version: ${{ steps.nvmrc.outputs.node_version }}
     steps:
-      - name: Checkout repository  # ✅ Always needed
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch full Git history
 
       - name: Read .nvmrc file
         id: nvmrc
@@ -33,14 +31,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      
-      - name: Install PNPM
-        run: npm i -g pnpm
+          cache: "pnpm"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
 
       - name: Install dependencies
         run: pnpm install
