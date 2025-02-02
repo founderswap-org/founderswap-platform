@@ -11,7 +11,7 @@ jobs:
     steps:
 
       - name: Setup environment
-        uses: ./.github/actions/setup-composite-action
+        uses: ./.github/actions/setup-composite-action/action.yml
 
       - name: Use pnpm from setup
         run: pnpm --version
