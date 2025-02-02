@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup environment
-        uses: ./.github/actions/setup-composite-action/action.yml
+        uses: ./.github/actions/setup-composite-action
 
       - name: Use pnpm from setup
         run: pnpm --version
