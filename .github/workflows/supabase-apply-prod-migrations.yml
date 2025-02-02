@@ -14,10 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Read .nvmrc file
+        id: nvmrc
+        run: |
+          if [ -f .nvmrc ]; then
+            echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+          else
+            echo "::error::File .nvmrc not found!"
+            exit 1
+          fi
+
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -42,7 +52,7 @@ jobs:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
           #
       - name: Apply Supabase migrations
-        run: supabase db push --password $SUPABASE_DB_PASSWORD_PROD --debug
+        run: supabase db push --password $SUPABASE_DB_PASSWORD_PROD
         env:
           SUPABASE_DB_PASSWORD_PROD: ${{ secrets.SUPABASE_DB_PASSWORD_PROD }}
 
