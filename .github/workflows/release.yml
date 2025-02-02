@@ -47,6 +47,10 @@ jobs:
 
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          
           git add package.json
           git commit -m "chore: bump web to $NEW_VERSION"
 
