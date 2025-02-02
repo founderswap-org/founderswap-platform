@@ -67,7 +67,6 @@ jobs:
       - name: Create and push release branch
         if: env.NEW_VERSION != ''
         run: |
-          cd apps/web
           
           # Remove prefix "v" from version if exists
           CLEAN_VERSION=$(echo "${{ env.NEW_VERSION }}" | sed 's/^v//')
