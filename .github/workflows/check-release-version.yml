@@ -1,0 +1,48 @@
+name: Check Release Version
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml  # ✅ Calls reusable setup
+
+  check_version:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure PR is from a release branch
+        run: |
+          PR_BRANCH="${{ github.event.pull_request.head.ref }}"
+          if [[ ! "$PR_BRANCH" =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::❌ The PR does not come from a valid release branch (expected: release/vX.Y.Z)."
+            exit 1
+          fi
+
+      - name: Checkout repository (last 2 commits)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Fetch the last two commits to compare versions
+
+      - name: Get current main version
+        id: current_version
+        run: |
+          MAIN_VERSION=$(jq -r .version package.json)
+          echo "Current main version: $MAIN_VERSION"
+          echo "VERSION=$MAIN_VERSION" >> $GITHUB_ENV
+
+      - name: Get PR branch version
+        id: pr_version
+        run: |
+          PR_VERSION=$(jq -r .version package.json)
+          echo "PR version: $PR_VERSION"
+          echo "PR_VERSION=$PR_VERSION" >> $GITHUB_ENV
+
+      - name: Compare versions
+        run: |
+          if [ "$(printf '%s\n' "$VERSION" "$PR_VERSION" | sort -V | tail -n 1)" != "$PR_VERSION" ]; then
+            echo "::error::❌ The release version ($PR_VERSION) is not greater than the current main version ($VERSION)."
+            exit 1
+         

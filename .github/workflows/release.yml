@@ -1,0 +1,88 @@
+name: Automated Release for Single App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # ✅ Allows manual launching
+
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
+
+  release:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Node.js version from setup
+        run: echo "Using Node.js version ${{ needs.setup.outputs.node_version }}"
+
+      # 🔹 Determine type of versione (patch/minor/major) from PR title
+      - name: Determine version type from PR title
+        if: github.event_name == 'pull_request'
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          if [[ "$PR_TITLE" == *"#minor"* ]]; then
+            VERSION_TYPE="minor"
+          elif [[ "$PR_TITLE" == *"#major"* ]]; then
+            VERSION_TYPE="major"
+          else
+            VERSION_TYPE="patch"
+          fi
+          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+
+      - name: Increment version only if needed
+        run: |
+          cd apps/web  # ✅ APP PATH
+          CURRENT_VERSION=$(jq -r .version package.json)
+          NEW_VERSION=$(pnpm version $VERSION_TYPE --no-git-tag-version | tail -n 1)
+
+          if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
+            echo "No version change needed for web"
+            exit 0
+          fi
+
+          echo "New version for web: $NEW_VERSION"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          git add package.json
+          git commit -m "chore: bump web to $NEW_VERSION"
+
+      - name: Create and push release branch
+        if: env.NEW_VERSION != ''
+        run: |
+          cd apps/web
+          RELEASE_BRANCH="release/v${{ env.NEW_VERSION }}"
+          git checkout -b $RELEASE_BRANCH
+          git push origin $RELEASE_BRANCH
+
+      - name: Create and push tag
+        if: env.NEW_VERSION != ''
+        run: |
+          cd apps/web
+          TAG_NAME="web-v${{ env.NEW_VERSION }}"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+
+      - name: Create GitHub Release
+        if: env.NEW_VERSION != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "web-v${{ env.NEW_VERSION }}"
+          name: "Release web ${{ env.NEW_VERSION }}"
+          body: "Automated release for `web` version `${{ env.NEW_VERSION }}`"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push next release branch
+        if: env.NEW_VERSION != ''
+        run: |
+          cd apps/web
+          NEXT_VERSION=$(pnpm version patch --no-git-tag-version | tail -n 1)
+          NEXT_BRANCH="release/v$NEXT_VERSION"
+          
+          echo "Creating next release branch: $NEXT_BRANCH"
+          
+          git checkout -b $NEXT_BRANCH
+          git push origin $NEXT_BRANCH

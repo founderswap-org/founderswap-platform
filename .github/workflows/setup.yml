@@ -1,0 +1,44 @@
+name: Setup Node.js and pnpm
+
+on:
+  workflow_call:
+    outputs:
+      node_version:
+        description: "Node.js version from .nvmrc"
+        value: ${{ jobs.setup.outputs.node_version }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      node_version: ${{ steps.nvmrc.outputs.node_version }}
+    steps:
+      - name: Checkout repository  # ✅ Always needed
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full Git history
+
+      - name: Read .nvmrc file
+        id: nvmrc
+        run: |
+          if [ -f .nvmrc ]; then
+            echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+            echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+          else
+            echo "::error::File .nvmrc not found!"
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install

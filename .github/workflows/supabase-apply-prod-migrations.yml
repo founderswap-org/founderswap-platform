@@ -1,45 +1,21 @@
 name: Apply Supabase Migrations
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
 
 jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml  # Reusable setup
+
   migrate:
+    needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Read .nvmrc file
-        id: nvmrc
-        run: |
-          if [ -f .nvmrc ]; then
-            echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
-          else
-            echo "::error::File .nvmrc not found!"
-            exit 1
-          fi
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Install Supabase CLI
-        run: |
-          pnpm add -g supabase
+        run: pnpm add -g supabase
 
       - name: Authenticate with Supabase
         run: supabase login --token $SUPABASE_TOKEN
@@ -50,9 +26,8 @@ jobs:
         run: supabase link --project-ref $SUPABASE_PROJECT_REF_PROD
         env:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
-          #
+
       - name: Apply Supabase migrations
         run: supabase db push --password $SUPABASE_DB_PASSWORD_PROD
         env:
           SUPABASE_DB_PASSWORD_PROD: ${{ secrets.SUPABASE_DB_PASSWORD_PROD }}
-
