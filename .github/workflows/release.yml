@@ -33,10 +33,17 @@ jobs:
             VERSION_TYPE="patch"
           fi
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
-
+          
       - name: Increment version only if needed
         run: |
           cd apps/web  # ✅ APP PATH
+
+          # check package.json has version, otherwise add it
+          if ! jq -e '.version' package.json > /dev/null; then
+            echo "No version found in package.json. Setting default version to 1.0.0."
+            jq '. + {version: "1.0.0"}' package.json > tmp.json && mv tmp.json package.json
+          fi
+
           CURRENT_VERSION=$(jq -r .version package.json)
           NEW_VERSION=$(pnpm version $VERSION_TYPE --no-git-tag-version | tail -n 1)
 
@@ -48,11 +55,12 @@ jobs:
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           
-          pnpm update
-          
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-
+          # Back to project root
+          cd ../../
+          
+          # Add modified files
           git add .
           git commit -m "chore: bump web to $NEW_VERSION"
 
@@ -60,7 +68,12 @@ jobs:
         if: env.NEW_VERSION != ''
         run: |
           cd apps/web
-          RELEASE_BRANCH="release/v${{ env.NEW_VERSION }}"
+          
+          # Remove prefix "v" from version if exists
+          CLEAN_VERSION=$(echo "${{ env.NEW_VERSION }}" | sed 's/^v//')
+          RELEASE_BRANCH="release/v$CLEAN_VERSION"
+
+          echo "Creating release branch: $RELEASE_BRANCH"
           git checkout -b $RELEASE_BRANCH
           git push origin $RELEASE_BRANCH
 
