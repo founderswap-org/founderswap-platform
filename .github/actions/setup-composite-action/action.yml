@@ -3,7 +3,6 @@ description: 'Setup Node.js and pnpm'
 runs:
   using: "composite"
   steps:
-
       - name: Read .nvmrc file
         id: nvmrc
         run: |
