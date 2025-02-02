@@ -15,23 +15,26 @@ jobs:
 
     steps:
 
-      - name: Use npx pnpm from setup
-        run: npx pnpm --version
+      - name: Setup environment
+        uses: ./.github/actions/setup-composite-action
+
+      - name: Use pnpm from setup
+        run: pnpm --version
 
       - name: Install Supabase CLI
-        run: npx pnpm add -g supabase
+        run: pnpm add -g supabase
 
       - name: Authenticate with Supabase
-        run: npx supabase login --token $SUPABASE_TOKEN
+        run: supabase login --token $SUPABASE_TOKEN
         env:
           SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
 
       - name: Link Supabase project
-        run: npx supabase link --project-ref $SUPABASE_PROJECT_REF_PROD
+        run: supabase link --project-ref $SUPABASE_PROJECT_REF_PROD
         env:
           SUPABASE_PROJECT_REF_PROD: ${{ secrets.SUPABASE_PROJECT_REF_PROD }}
 
       - name: Apply Supabase migrations
-        run: npx supabase db push --password $SUPABASE_DB_PASSWORD_PROD
+        run: supabase db push --password $SUPABASE_DB_PASSWORD_PROD
         env:
           SUPABASE_DB_PASSWORD_PROD: ${{ secrets.SUPABASE_DB_PASSWORD_PROD }}

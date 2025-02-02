@@ -1,0 +1,36 @@
+name: 'Setup Composite Action'
+description: 'Setup Node.js and pnpm'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Read .nvmrc file
+      id: nvmrc
+      shell: bash
+      run: |
+        if [ -f .nvmrc ]; then
+          echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+          echo "node_version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        else
+          echo "::error::File .nvmrc not found!"
+          exit 1
+        fi
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: "pnpm"
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 9
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install
