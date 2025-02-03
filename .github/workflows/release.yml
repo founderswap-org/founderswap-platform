@@ -34,18 +34,28 @@ jobs:
           
       - name: Increment version only if needed
         run: |
-          # Verifica se esiste la chiave "version" in package.json
+          # Check if the "version" key exists in package.json
           if ! grep -q '"version":' apps/web/package.json; then
             echo "No version found in package.json. Setting default version to 1.0.0."
             sed -i 's/{/{\n  "version": "1.0.0",/' apps/web/package.json
           fi
 
-          # Ottieni la versione attuale senza usare jq
+          # Get the current version without using jq
           CURRENT_VERSION=$(cat apps/web/package.json | grep '"version":' | awk -F'"' '{print $4}')
-          
-          # Genera una nuova versione con pnpm
-          NEW_VERSION=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
+          echo "$CURRENT_VERSION"
 
+          # Generate a new version using pnpm and extract only the version number
+          RAW_VERSION_OUTPUT=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version)
+          echo $RAW_VERSION_OUTPUT
+          
+          # If pnpm outputs in the format "web: 1.2.3", extract only the version number
+          if echo "$RAW_VERSION_OUTPUT" | grep -q ':'; then
+            NEW_VERSION=$(echo "$RAW_VERSION_OUTPUT" | awk '{print $2}')
+          else
+            NEW_VERSION=$RAW_VERSION_OUTPUT
+          fi
+
+          # If the version has not changed, exit
           if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
             echo "No version change needed for web"
             exit 0
@@ -54,13 +64,12 @@ jobs:
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-          # Configura Git e committa il file aggiornato
+          # Configure Git and commit the updated package.json
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
+
           git add apps/web/package.json
           git commit -m "chore: bump web to $NEW_VERSION"
-
-
       - name: Debug NEW_VERSION
         run: |
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
