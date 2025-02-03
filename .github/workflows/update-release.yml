@@ -6,12 +6,14 @@ on:
       - main  # Trigger the workflow on push to the `main` branch
 
 jobs:
-  release:
+  Update-release:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v4  # Checkout the code from the repository
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
 
       # Step 2: Set up the environment using a custom composite action
       - name: Setup environment
@@ -48,8 +50,9 @@ jobs:
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV  # Export the version type as an environment variable
           echo "Version type determined: $VERSION_TYPE"
 
-      # Step 5: Increment the version in package.json based on the version type
-      - name: Increment version manually
+      # Step 5: Read the current version from package.json
+      - name: Read current version
+        id: read-version
         run: |
           # Check if the package.json file exists
           if ! [ -f "apps/web/package.json" ]; then
@@ -65,8 +68,33 @@ jobs:
           fi
           echo "Current version: $CURRENT_VERSION"
 
-          # Split the version into MAJOR, MINOR, and PATCH components
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          # Export the current version as an environment variable
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+
+      # Step 6: Create and push a Git tag for the current release
+      - name: Create and push tag for current release
+        run: |
+          TAG_NAME="web-v${{ env.CURRENT_VERSION }}"  # Create the tag name
+          git tag $TAG_NAME  # Create the tag
+          git push origin $TAG_NAME  # Push the tag to the repository
+
+      # Step 7: Create a GitHub Release for the current release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1  # Use the GitHub Release action
+        with:
+          tag_name: "web-v${{ env.CURRENT_VERSION }}"  # Tag name for the release
+          name: "Release web ${{ env.CURRENT_VERSION }}"  # Name of the release
+          body: "Automated release for `web` version `${{ env.CURRENT_VERSION }}`"  # Release description
+          draft: false  # Publish the release immediately
+          prerelease: false  # Mark as a stable release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
+
+      # Step 8: Increment the version for the next release
+      - name: Increment version for next release
+        run: |
+          # Split the current version into MAJOR, MINOR, and PATCH components
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.CURRENT_VERSION }}"
           # Increment the version based on the version type
           case "$VERSION_TYPE" in
             major)
@@ -87,20 +115,38 @@ jobs:
               ;;
           esac
 
-          # Construct the new version string
-          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          if [ -z "$NEW_VERSION" ]; then
+          # Construct the next version string
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
+          if [ -z "$NEXT_VERSION" ]; then
             echo "Error: Failed to calculate the new version. Exiting."
             exit 1
           fi
-          echo "New version: $NEW_VERSION"
+          echo "Next version: $NEXT_VERSION"
 
+          # Export the next version as an environment variable for subsequent steps
+          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
+
+      # Step 9: Create and push a new branch for the next release
+      - name: Create and push next release branch
+        if: env.NEXT_VERSION != ''  # Only run if NEXT_VERSION is set
+        run: |
+          NEXT_BRANCH="release/v${{ env.NEXT_VERSION }}"  # Create the branch name
+          
+          echo "Creating next release branch: $NEXT_BRANCH"
+          
+          git checkout -b $NEXT_BRANCH  # Create the new branch
+          git push origin $NEXT_BRANCH  # Push the new branch to the repository
+
+      # Step 10: Update package.json in the next release branch
+      - name: Update package.json in next release branch
+        if: env.NEXT_VERSION != ''  # Only run if NEXT_VERSION is set
+        run: |
           # Update the version in package.json
-          sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" apps/web/package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"${{ env.NEXT_VERSION }}\"/" apps/web/package.json
 
           # Verify the version was updated correctly
           UPDATED_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
-          if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
+          if [ "$UPDATED_VERSION" != "${{ env.NEXT_VERSION }}" ]; then
             echo "Error: Failed to update the version in apps/web/package.json. Exiting."
             exit 1
           fi
@@ -108,44 +154,9 @@ jobs:
           # Print the updated version for debugging
           echo "Version successfully updated to: $UPDATED_VERSION"
 
-          # Export the new version as an environment variable for subsequent steps
-          echo "NEW_VERSION=$UPDATED_VERSION" >> $GITHUB_ENV
-
-      # Step 6: Debugging step to print the new version
-      - name: Debug NEW_VERSION
-        run: |
-          echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
-          echo "Current directory: $(pwd)"
-
-      # Step 7: Create and push a Git tag for the new version
-      - name: Create and push tag
-        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
-        run: |
-          TAG_NAME="web-v${{ env.NEW_VERSION }}"  # Create the tag name
-          git tag $TAG_NAME  # Create the tag
-          git push origin $TAG_NAME  # Push the tag to the repository
-
-      # Step 8: Create a GitHub Release for the new version
-      - name: Create GitHub Release
-        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
-        uses: softprops/action-gh-release@v1  # Use the GitHub Release action
-        with:
-          tag_name: "web-v${{ env.NEW_VERSION }}"  # Tag name for the release
-          name: "Release web ${{ env.NEW_VERSION }}"  # Name of the release
-          body: "Automated release for `web` version `${{ env.NEW_VERSION }}`"  # Release description
-          draft: false  # Publish the release immediately
-          prerelease: false  # Mark as a stable release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
-
-      # Step 9: Create and push a new branch for the next release
-      - name: Create and push next release branch
-        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
-        run: |
-          NEXT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')  # Get the updated version
-          NEXT_BRANCH="release/v$NEXT_VERSION"  # Create the branch name
-          
-          echo "Creating next release branch: $NEXT_BRANCH"
-          
-          git checkout -b $NEXT_BRANCH  # Create the new branch
-          git push origin $NEXT_BRANCH  # Push the new branch to the repository
+          # Commit and push the updated package.json to the next release branch
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add apps/web/package.json
+          git commit -m "chore: bump version to ${{ env.NEXT_VERSION }} [skip ci]"
+          git push origin $NEXT_BRANCH
