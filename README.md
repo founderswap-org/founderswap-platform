@@ -1,4 +1,3 @@
--
 <a href="https://www.founderswap.com">
   <img alt="Building connections, shaping future" src="https://github.com/kkratterf/founderswap-platform/">
 </a>
