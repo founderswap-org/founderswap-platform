@@ -33,46 +33,24 @@ jobs:
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
           
       
-      - name: Increment version only if needed
+      - name: Increment version manually
         run: |
-          # Check if the "version" key exists in package.json
-          if ! grep -q '"version":' apps/web/package.json; then
-            echo "No version found in package.json. Setting default version to 1.0.0."
-            sed -i 's/{/{\n  "version": "1.0.0",/' apps/web/package.json
-          fi
-
-          # Get the current version
+          # Leggi la versione corrente dal package.json
           CURRENT_VERSION=$(cat apps/web/package.json | grep '"version":' | awk -F'"' '{print $4}')
           echo "Current version: $CURRENT_VERSION"
 
-          # Generate a new version
-          RAW_VERSION_OUTPUT=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version 2>&1)
-          if [ $? -ne 0 ] || [ -z "$RAW_VERSION_OUTPUT" ]; then
-            echo "Error: Failed to determine the new version. Output: $RAW_VERSION_OUTPUT"
-            exit 1
-          fi
+          # Incrementa la versione (patch)
+          NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. -v OFS=. '{$NF += 1 ; print}')
+          echo "New version: $NEW_VERSION"
 
-          # Extract only the version number
-          if echo "$RAW_VERSION_OUTPUT" | grep -q ':'; then
-            NEW_VERSION=$(echo "$RAW_VERSION_OUTPUT" | awk '{print $2}')
-          else
-            NEW_VERSION=$RAW_VERSION_OUTPUT
-          fi
+          # Aggiorna il file package.json con la nuova versione
+          sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" apps/web/package.json
 
-          if [ -z "$NEW_VERSION" ]; then
-            echo "Error: NEW_VERSION is empty. Exiting."
-            exit 1
-          fi
+          # Stampa la nuova versione per debug
+          echo "Updated version to: $NEW_VERSION"
 
-          echo "New version for web: $NEW_VERSION"
+          # Salva la nuova versione in una variabile di ambiente per i passaggi successivi
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
-          # Configure Git and commit updated files
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions@github.com"
-
-          git add apps/web/package.json pnpm-lock.yaml
-          git commit -m "chore: bump web to $NEW_VERSION"
 
 
 
