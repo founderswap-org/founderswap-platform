@@ -17,8 +17,7 @@ jobs:
 
       - name: Use pnpm from setup
         run: pnpm --version
-        
-      # 🔹 Determine type of version (patch/minor/major) from PR title
+
       - name: Determine version type from PR title
         if: github.event_name == 'pull_request'
         run: |
@@ -31,17 +30,14 @@ jobs:
             VERSION_TYPE="patch"
           fi
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
-          
-      
+
       - name: Increment version manually
         run: |
-          # Imposta un file di package.json di default se manca
           if ! [ -f "apps/web/package.json" ]; then
             echo "Error: apps/web/package.json not found. Exiting."
             exit 1
           fi
 
-          # Leggi la versione corrente dal file package.json
           CURRENT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           if [ -z "$CURRENT_VERSION" ]; then
             echo "Error: Unable to find the current version in apps/web/package.json. Exiting."
@@ -49,7 +45,6 @@ jobs:
           fi
           echo "Current version: $CURRENT_VERSION"
 
-          # Incrementa la versione (patch)
           NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. -v OFS=. '{$NF += 1 ; print}')
           if [ -z "$NEW_VERSION" ]; then
             echo "Error: Failed to calculate the new version. Exiting."
@@ -57,20 +52,15 @@ jobs:
           fi
           echo "New version: $NEW_VERSION"
 
-          # Aggiorna il file package.json con la nuova versione
           sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" apps/web/package.json
 
-          # Conferma che il file è stato aggiornato
           UPDATED_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
             echo "Error: Failed to update the version in apps/web/package.json. Exiting."
             exit 1
           fi
 
-          # Stampa la nuova versione per debug
           echo "Version successfully updated to: $UPDATED_VERSION"
-
-          # Esporta la nuova versione come variabile di ambiente per gli step successivi
           echo "NEW_VERSION=$UPDATED_VERSION" >> $GITHUB_ENV
 
       - name: Debug NEW_VERSION
@@ -78,32 +68,11 @@ jobs:
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
           echo "Current directory: $(pwd)"
 
-      - name: Create and push tag
-        if: env.NEW_VERSION != ''
-        run: |
-          TAG_NAME="web-v${{ env.NEW_VERSION }}"
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-
-      - name: Create GitHub Release
-        if: env.NEW_VERSION != ''
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: "web-v${{ env.NEW_VERSION }}"
-          name: "Release web ${{ env.NEW_VERSION }}"
-          body: "Automated release for `web` version `${{ env.NEW_VERSION }}`"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create and push next release branch
         if: env.NEW_VERSION != ''
         run: |
           NEXT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           NEXT_BRANCH="release/v$NEXT_VERSION"
-          
           echo "Creating next release branch: $NEXT_BRANCH"
-          
           git checkout -b $NEXT_BRANCH
           git push origin $NEXT_BRANCH
