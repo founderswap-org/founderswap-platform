@@ -26,20 +26,28 @@ jobs:
       # Step 4: Determine the version type (patch/minor/major) from the PR title
       - name: Determine version type from PR title
         id: determine-version
-        run: |      
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          echo "PR Title Debug: '$PR_TITLE'"
-          echo "$PR_TITLE" | od -c
-      
-          if echo "$PR_TITLE" | grep -q "#minor"; then
-            VERSION_TYPE="minor"
-          elif echo "$PR_TITLE" | grep -q "#major"; then
-            VERSION_TYPE="major"
-          else
-            VERSION_TYPE="patch"
+        run: |
+          # Default to 'patch' if not a pull request
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "VERSION_TYPE=patch" >> $GITHUB_ENV
+            echo "Defaulting to 'patch' because this is not a pull request."
+            exit 0
           fi
       
-          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+          # Get the PR title from the event payload
+          PR_TITLE=$(jq -r '.pull_request.title' $GITHUB_EVENT_PATH)
+          echo "PR Title: $PR_TITLE"
+      
+          # Determine the version type based on keywords in the PR title
+          if [[ "$PR_TITLE" == *"#minor"* ]]; then
+            VERSION_TYPE="minor"
+          elif [[ "$PR_TITLE" == *"#major"* ]]; then
+            VERSION_TYPE="major"
+          else
+            VERSION_TYPE="patch"  # Default to patch if no keyword is found
+          fi
+      
+          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV  # Export the version type as an environment variable
           echo "Version type determined: $VERSION_TYPE"
 
       # Step 5: Read the current version from package.json
