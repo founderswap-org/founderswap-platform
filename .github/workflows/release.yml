@@ -34,14 +34,17 @@ jobs:
           
       - name: Increment version only if needed
         run: |
-          # Verifica e modifica il file corretto
-          if ! jq -e '.version' apps/web/package.json > /dev/null; then
+          # Verifica se esiste la chiave "version" in package.json
+          if ! grep -q '"version":' apps/web/package.json; then
             echo "No version found in package.json. Setting default version to 1.0.0."
-            jq '. + {version: "1.0.0"}' apps/web/package.json > tmp.json && mv tmp.json apps/web/package.json
+            sed -i 's/{/{\n  "version": "1.0.0",/' apps/web/package.json
           fi
 
-          CURRENT_VERSION=$(jq -r .version apps/web/package.json)
-          NEW_VERSION=$(pnpm -C apps/web pkg version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
+          # Ottieni la versione attuale senza usare jq
+          CURRENT_VERSION=$(cat apps/web/package.json | grep '"version":' | awk -F'"' '{print $4}')
+          
+          # Genera una nuova versione con pnpm
+          NEW_VERSION=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version | sed 's/"//g')
 
           if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
             echo "No version change needed for web"
@@ -51,10 +54,12 @@ jobs:
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
+          # Configura Git e committa il file aggiornato
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add apps/web/package.json
           git commit -m "chore: bump web to $NEW_VERSION"
+
 
       - name: Debug NEW_VERSION
         run: |
