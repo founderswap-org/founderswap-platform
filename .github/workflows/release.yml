@@ -56,10 +56,10 @@ jobs:
           fi
 
           # If the version has not changed, exit
-          if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
-            echo "No version change needed for web"
-            exit 0
-          fi
+          #if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
+          #  echo "No version change needed for web"
+          #  exit 0
+          #fi
 
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
