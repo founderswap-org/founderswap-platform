@@ -159,12 +159,6 @@ jobs:
           git commit -m "chore: bump version to ${{ env.NEXT_VERSION }} [skip ci]"
           git push -u origin $NEXT_BRANCH
 
-      # Step 10: Update package.json in the next release branch
-      - name: Update package.json in next release branch
-        if: env.NEXT_VERSION != ''  # Only run if NEXT_VERSION is set
-        run: |
-          
-
           
           
 
