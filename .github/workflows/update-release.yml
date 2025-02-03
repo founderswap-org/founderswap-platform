@@ -26,12 +26,7 @@ jobs:
       # Step 4: Determine the version type (patch/minor/major) from the PR title
       - name: Determine version type from PR title
         id: determine-version
-        run: |
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            echo "VERSION_TYPE=patch" >> $GITHUB_ENV
-            exit 0
-          fi
-      
+        run: |      
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "PR Title Debug: '$PR_TITLE'"
           echo "$PR_TITLE" | od -c
