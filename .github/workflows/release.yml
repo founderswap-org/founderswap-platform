@@ -73,9 +73,6 @@ jobs:
           # Esporta la nuova versione come variabile di ambiente per gli step successivi
           echo "NEW_VERSION=$UPDATED_VERSION" >> $GITHUB_ENV
 
-
-
-
       - name: Debug NEW_VERSION
         run: |
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
@@ -114,7 +111,7 @@ jobs:
       - name: Create and push next release branch
         if: env.NEW_VERSION != ''
         run: |
-          NEXT_VERSION=$(pnpm -C apps/web version patch --no-git-tag-version | tail -n 1)
+          NEXT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           NEXT_BRANCH="release/v$NEXT_VERSION"
           
           echo "Creating next release branch: $NEXT_BRANCH"
