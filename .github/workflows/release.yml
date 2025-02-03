@@ -32,6 +32,7 @@ jobs:
           fi
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
           
+      
       - name: Increment version only if needed
         run: |
           # Check if the "version" key exists in package.json
@@ -40,43 +41,48 @@ jobs:
             sed -i 's/{/{\n  "version": "1.0.0",/' apps/web/package.json
           fi
 
-          # Get the current version without using jq
+          # Get the current version
           CURRENT_VERSION=$(cat apps/web/package.json | grep '"version":' | awk -F'"' '{print $4}')
-          echo "$CURRENT_VERSION"
+          echo "Current version: $CURRENT_VERSION"
 
-          # Generate a new version using pnpm and extract only the version number
-          RAW_VERSION_OUTPUT=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version)
-          echo $RAW_VERSION_OUTPUT
-          
-          # If pnpm outputs in the format "web: 1.2.3", extract only the version number
+          # Generate a new version
+          RAW_VERSION_OUTPUT=$(pnpm --filter web version $VERSION_TYPE --no-git-tag-version 2>&1)
+          if [ $? -ne 0 ] || [ -z "$RAW_VERSION_OUTPUT" ]; then
+            echo "Error: Failed to determine the new version. Output: $RAW_VERSION_OUTPUT"
+            exit 1
+          fi
+
+          # Extract only the version number
           if echo "$RAW_VERSION_OUTPUT" | grep -q ':'; then
             NEW_VERSION=$(echo "$RAW_VERSION_OUTPUT" | awk '{print $2}')
           else
             NEW_VERSION=$RAW_VERSION_OUTPUT
           fi
 
-          # If the version has not changed, exit
-          #if [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
-          #  echo "No version change needed for web"
-          #  exit 0
-          #fi
+          if [ -z "$NEW_VERSION" ]; then
+            echo "Error: NEW_VERSION is empty. Exiting."
+            exit 1
+          fi
 
           echo "New version for web: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-          # Configure Git and commit the updated package.json
+          # Configure Git and commit updated files
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
-          git add .
+          git add apps/web/package.json pnpm-lock.yaml
           git commit -m "chore: bump web to $NEW_VERSION"
+
+
+
       - name: Debug NEW_VERSION
         run: |
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
           echo "Current directory: $(pwd)"
 
       - name: Create and push release branch
-        if: env.NEW_VERSION != ''
+        if: env.NEW_VERSION != '' && env.NEW_VERSION != 'None'
         run: |
           # Remove prefix "v" from version if exists
           CLEAN_VERSION=$(echo "${{ env.NEW_VERSION }}" | sed 's/^v//')
