@@ -3,41 +3,49 @@ name: Automated Release for Single App
 on:
   push:
     branches:
-      - main
+      - main  # Trigger the workflow on push to the `main` branch
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
+      # Step 1: Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # Checkout the code from the repository
 
+      # Step 2: Set up the environment using a custom composite action
       - name: Setup environment
-        uses: ./.github/actions/setup-composite-action
+        uses: ./.github/actions/setup-composite-action  # Custom action for environment setup
 
+      # Step 3: Verify pnpm is available (debugging step)
       - name: Use pnpm from setup
-        run: pnpm --version
+        run: pnpm --version  # Print the version of pnpm to verify it's installed
 
+      # Step 4: Determine the version type (patch/minor/major) from the PR title
       - name: Determine version type from PR title
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request'  # Only run if the event is a pull request
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"  # Get the PR title
+          # Check for keywords in the PR title to determine the version type
           if [[ "$PR_TITLE" == *"#minor"* ]]; then
             VERSION_TYPE="minor"
           elif [[ "$PR_TITLE" == *"#major"* ]]; then
             VERSION_TYPE="major"
           else
-            VERSION_TYPE="patch"
+            VERSION_TYPE="patch"  # Default to patch if no keyword is found
           fi
-          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+          echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV  # Export the version type as an environment variable
 
+      # Step 5: Increment the version in package.json based on the version type
       - name: Increment version manually
         run: |
+          # Check if the package.json file exists
           if ! [ -f "apps/web/package.json" ]; then
             echo "Error: apps/web/package.json not found. Exiting."
             exit 1
           fi
 
+          # Read the current version from package.json
           CURRENT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           if [ -z "$CURRENT_VERSION" ]; then
             echo "Error: Unable to find the current version in apps/web/package.json. Exiting."
@@ -45,34 +53,87 @@ jobs:
           fi
           echo "Current version: $CURRENT_VERSION"
 
-          NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. -v OFS=. '{$NF += 1 ; print}')
+          # Split the version into MAJOR, MINOR, and PATCH components
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          # Increment the version based on the version type
+          case "$VERSION_TYPE" in
+            major)
+              MAJOR=$((MAJOR + 1))  # Increment MAJOR and reset MINOR and PATCH
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))  # Increment MINOR and reset PATCH
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))  # Increment PATCH
+              ;;
+            *)
+              echo "Error: Invalid VERSION_TYPE. Expected 'major', 'minor', or 'patch'. Exiting."
+              exit 1
+              ;;
+          esac
+
+          # Construct the new version string
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           if [ -z "$NEW_VERSION" ]; then
             echo "Error: Failed to calculate the new version. Exiting."
             exit 1
           fi
           echo "New version: $NEW_VERSION"
 
+          # Update the version in package.json
           sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" apps/web/package.json
 
+          # Verify the version was updated correctly
           UPDATED_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
           if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
             echo "Error: Failed to update the version in apps/web/package.json. Exiting."
             exit 1
           fi
 
+          # Print the updated version for debugging
           echo "Version successfully updated to: $UPDATED_VERSION"
+
+          # Export the new version as an environment variable for subsequent steps
           echo "NEW_VERSION=$UPDATED_VERSION" >> $GITHUB_ENV
 
+      # Step 6: Debugging step to print the new version
       - name: Debug NEW_VERSION
         run: |
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
           echo "Current directory: $(pwd)"
 
-      - name: Create and push next release branch
-        if: env.NEW_VERSION != ''
+      # Step 7: Create and push a Git tag for the new version
+      - name: Create and push tag
+        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
         run: |
-          NEXT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
-          NEXT_BRANCH="release/v$NEXT_VERSION"
+          TAG_NAME="web-v${{ env.NEW_VERSION }}"  # Create the tag name
+          git tag $TAG_NAME  # Create the tag
+          git push origin $TAG_NAME  # Push the tag to the repository
+
+      # Step 8: Create a GitHub Release for the new version
+      - name: Create GitHub Release
+        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
+        uses: softprops/action-gh-release@v1  # Use the GitHub Release action
+        with:
+          tag_name: "web-v${{ env.NEW_VERSION }}"  # Tag name for the release
+          name: "Release web ${{ env.NEW_VERSION }}"  # Name of the release
+          body: "Automated release for `web` version `${{ env.NEW_VERSION }}`"  # Release description
+          draft: false  # Publish the release immediately
+          prerelease: false  # Mark as a stable release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
+
+      # Step 9: Create and push a new branch for the next release
+      - name: Create and push next release branch
+        if: env.NEW_VERSION != ''  # Only run if NEW_VERSION is set
+        run: |
+          NEXT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')  # Get the updated version
+          NEXT_BRANCH="release/v$NEXT_VERSION"  # Create the branch name
+          
           echo "Creating next release branch: $NEXT_BRANCH"
-          git checkout -b $NEXT_BRANCH
-          git push origin $NEXT_BRANCH
+          
+          git checkout -b $NEXT_BRANCH  # Create the new branch
+          git push origin $NEXT_BRANCH  # Push the new branch to the repository
