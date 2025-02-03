@@ -78,17 +78,6 @@ jobs:
           echo "NEW_VERSION is set to: ${{ env.NEW_VERSION }}"
           echo "Current directory: $(pwd)"
 
-      - name: Create and push release branch
-        if: env.NEW_VERSION != '' && env.NEW_VERSION != 'None'
-        run: |
-          # Remove prefix "v" from version if exists
-          CLEAN_VERSION=$(echo "${{ env.NEW_VERSION }}" | sed 's/^v//')
-          RELEASE_BRANCH="release/v$CLEAN_VERSION"
-
-          echo "Creating release branch: $RELEASE_BRANCH"
-          git checkout -b $RELEASE_BRANCH
-          git push origin $RELEASE_BRANCH
-
       - name: Create and push tag
         if: env.NEW_VERSION != ''
         run: |
