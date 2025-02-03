@@ -23,10 +23,20 @@ jobs:
 
       # Step 4: Determine the version type (patch/minor/major) from the PR title
       - name: Determine version type from PR title
-        if: github.event_name == 'pull_request'  # Only run if the event is a pull request
+        id: determine-version
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"  # Get the PR title
-          # Check for keywords in the PR title to determine the version type
+          # Default to 'patch' if not a pull request
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "VERSION_TYPE=patch" >> $GITHUB_ENV
+            echo "Defaulting to 'patch' because this is not a pull request."
+            exit 0
+          fi
+
+          # Get the PR title
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $PR_TITLE"
+
+          # Determine the version type based on keywords in the PR title
           if [[ "$PR_TITLE" == *"#minor"* ]]; then
             VERSION_TYPE="minor"
           elif [[ "$PR_TITLE" == *"#major"* ]]; then
@@ -34,7 +44,9 @@ jobs:
           else
             VERSION_TYPE="patch"  # Default to patch if no keyword is found
           fi
+
           echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV  # Export the version type as an environment variable
+          echo "Version type determined: $VERSION_TYPE"
 
       # Step 5: Increment the version in package.json based on the version type
       - name: Increment version manually
