@@ -35,22 +35,44 @@ jobs:
       
       - name: Increment version manually
         run: |
-          # Leggi la versione corrente dal package.json
-          CURRENT_VERSION=$(cat apps/web/package.json | grep '"version":' | awk -F'"' '{print $4}')
+          # Imposta un file di package.json di default se manca
+          if ! [ -f "apps/web/package.json" ]; then
+            echo "Error: apps/web/package.json not found. Exiting."
+            exit 1
+          fi
+
+          # Leggi la versione corrente dal file package.json
+          CURRENT_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
+          if [ -z "$CURRENT_VERSION" ]; then
+            echo "Error: Unable to find the current version in apps/web/package.json. Exiting."
+            exit 1
+          fi
           echo "Current version: $CURRENT_VERSION"
 
           # Incrementa la versione (patch)
           NEW_VERSION=$(echo "$CURRENT_VERSION" | awk -F. -v OFS=. '{$NF += 1 ; print}')
+          if [ -z "$NEW_VERSION" ]; then
+            echo "Error: Failed to calculate the new version. Exiting."
+            exit 1
+          fi
           echo "New version: $NEW_VERSION"
 
           # Aggiorna il file package.json con la nuova versione
           sed -i "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" apps/web/package.json
 
-          # Stampa la nuova versione per debug
-          echo "Updated version to: $NEW_VERSION"
+          # Conferma che il file è stato aggiornato
+          UPDATED_VERSION=$(grep '"version":' apps/web/package.json | awk -F'"' '{print $4}')
+          if [ "$UPDATED_VERSION" != "$NEW_VERSION" ]; then
+            echo "Error: Failed to update the version in apps/web/package.json. Exiting."
+            exit 1
+          fi
 
-          # Salva la nuova versione in una variabile di ambiente per i passaggi successivi
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          # Stampa la nuova versione per debug
+          echo "Version successfully updated to: $UPDATED_VERSION"
+
+          # Esporta la nuova versione come variabile di ambiente per gli step successivi
+          echo "NEW_VERSION=$UPDATED_VERSION" >> $GITHUB_ENV
+
 
 
 
