@@ -1,7 +1,7 @@
 export const runtime = 'edge';
 
 import { updateOnboardingStep2 } from '@/app/(authenticated)/onboarding/action';
-import { InterestsSkillsForm } from '@/components/forms/profile/interests-skills-form';
+import { Step2Form } from '@/components/forms/profile/step-2';
 import { OnboardingCard } from '@/components/onboarding/onboarding-card';
 
 export default function OnboardingStep2() {
@@ -13,7 +13,7 @@ export default function OnboardingStep2() {
         step={2}
         totalSteps={3}
       >
-        <InterestsSkillsForm onSubmit={updateOnboardingStep2} />
+        <Step2Form onSubmit={updateOnboardingStep2} />
       </OnboardingCard>
     </div>
   );

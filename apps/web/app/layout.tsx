@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
 import '@founderswap/design-system/styles/shared-globals.css';
@@ -13,7 +14,14 @@ type RootLayoutProperties = {
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html lang="en" className={fonts} suppressHydrationWarning>
     <body>
-      <DesignSystemProvider>{children}</DesignSystemProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem={true}
+        themes={['light', 'dark', 'system']}
+      >
+        <DesignSystemProvider>{children}</DesignSystemProvider>
+      </ThemeProvider>
     </body>
   </html>
 );

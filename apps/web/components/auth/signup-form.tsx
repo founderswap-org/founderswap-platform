@@ -36,15 +36,6 @@ export const SignupForm = () => {
           name="last_name"
           placeholder="Last Name"
         />
-        <Input
-          type="text"
-          id="company"
-          name="company_name"
-          placeholder="Company"
-        />
-      </div>
-      <Separator />
-      <div className="flex flex-col gap-3" title="Access Information">
         <Input type="email" id="email" name="email" placeholder="Email" />
         <Input
           type="password"
@@ -53,6 +44,7 @@ export const SignupForm = () => {
           placeholder="Password"
         />
       </div>
+      <Separator />
       <Button type="submit">Sign Up</Button>
       <Separator />
       <div className="flex flex-col">

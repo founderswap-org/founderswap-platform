@@ -12,7 +12,7 @@ import {
 } from '@founderswap/design-system/components/ui/select';
 import { Separator } from '@founderswap/design-system/components/ui/separator';
 
-interface RoleExperienceFormProps {
+interface Step1Props {
   onSubmit: (formData: FormData) => Promise<void>;
   submitLabel?: string;
   defaultValues?: {
@@ -25,11 +25,11 @@ interface RoleExperienceFormProps {
   };
 }
 
-export function RoleExperienceForm({
+export function Step1Form({
   onSubmit,
   submitLabel = 'Continue',
   defaultValues = {},
-}: RoleExperienceFormProps) {
+}: Step1Props) {
   return (
     <form action={onSubmit}>
       <div className="space-y-10">
@@ -72,6 +72,14 @@ export function RoleExperienceForm({
 
         <div className="flex flex-col gap-4">
           <p className="font-semibold text-lg">About your company</p>
+          <div className="space-y-2">
+            <Label className="font-medium text-sm">Company name</Label>
+            <Input
+              name="company_name"
+              required
+              placeholder="Your company name"
+            />
+          </div>
           <div className="space-y-2">
             <Label className="font-medium text-sm">Company size</Label>
             <Select

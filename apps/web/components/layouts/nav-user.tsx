@@ -126,7 +126,7 @@ export function NavUser() {
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuSubMenu>
-                <DropdownMenuSubMenuTrigger>
+                <DropdownMenuSubMenuTrigger className="flex w-full items-center gap-2">
                   <Icon className="size-[1.2rem] transition-all duration-200" />
                   {currentTheme.label}
                 </DropdownMenuSubMenuTrigger>
@@ -135,8 +135,9 @@ export function NavUser() {
                     <DropdownMenuItem
                       key={value}
                       onClick={() => setTheme(value)}
+                      className="flex items-center gap-2"
                     >
-                      <Icon className="mr-2 size-4" />
+                      <Icon className="size-4" />
                       {label}
                     </DropdownMenuItem>
                   ))}
@@ -146,7 +147,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
-              Log out {/* // TODO:  connect logout action*/}
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

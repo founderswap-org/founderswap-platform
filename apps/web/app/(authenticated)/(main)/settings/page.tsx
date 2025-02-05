@@ -2,7 +2,7 @@
 export const runtime = 'edge';
 
 import { updateProfile } from '@/app/(authenticated)/(main)/settings/actions';
-import { RoleExperienceForm } from '@/components/forms/profile/role-experience-form';
+import { Step1Form } from '@/components/forms/profile/step-1';
 import { Card } from '@founderswap/design-system/components/ui/card';
 import { Separator } from '@founderswap/design-system/components/ui/separator';
 
@@ -20,7 +20,7 @@ export default function SettingsPage() {
         </div>
         <Separator />
         <Card className="p-6">
-          <RoleExperienceForm
+          <Step1Form
             onSubmit={updateProfile}
             submitLabel="Save changes"
             defaultValues={{
