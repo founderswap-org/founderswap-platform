@@ -1,7 +1,7 @@
 {
   "name": "web",
   "private": true,
-  "version": "0.0.23",
+  "version": "0.0.24",
   "scripts": {
     "dev": "next dev -p 3000 --turbopack",
     "build": "next build",
