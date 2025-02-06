@@ -21,7 +21,7 @@ export const SignupForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex w-full flex-col gap-6 self-center"
+      className="flex flex-col gap-6 w-full self-center"
     >
       <div className="flex flex-col gap-3" title="Personal Information">
         <Input
