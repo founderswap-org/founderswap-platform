@@ -83,36 +83,13 @@ export async function updateOnboardingStep3(formData: FormData) {
     const supabase = await createClient();
     const userId = (await supabase.auth.getUser()).data.user?.id;
 
-    // Aggiungiamo le aree di interesse
-    const selectedAreas = formData.getAll('areas');
-    const areaInserts = selectedAreas.map(areaId => ({
-        user_id: userId,
-        area_id: Number.parseInt(areaId as string),
-    }));
+    const { error: userProfileError } = await supabase
+        .from('users_profile')
+        .update({ bio: formData.get('bio') as string })
+        .match({ user_id: userId });
 
-    const { error: areasError } = await supabase
-        .from('users_areas')
-        .upsert(areaInserts);
-
-    if (areasError) {
-        console.error('Supabase error:', areasError);
-        throw new Error('Failed to update areas');
-    }
-
-    // Aggiungiamo gli obiettivi
-    const selectedGoals = formData.getAll('goals');
-    const goalInserts = selectedGoals.map(goalId => ({
-        user_id: userId,
-        goal_id: Number.parseInt(goalId as string),
-    }));
-
-    const { error: goalsError } = await supabase
-        .from('users_goals')
-        .upsert(goalInserts);
-
-    if (goalsError) {
-        console.error('Supabase error:', goalsError);
-        throw new Error('Failed to update goals');
+    if (userProfileError) {
+        throw new Error('Failed to update user profile');
     }
 
     revalidatePath('/onboarding', 'layout');

@@ -1,17 +1,20 @@
 'use client';
 
+import type { Database } from '@/utils/database.types';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Separator } from '@founderswap/design-system/components/ui/separator';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
 
+type Skills = Database['public']['Tables']['skill_translations']['Row'];
+
 interface Step2Props {
   onSubmit: (formData: FormData) => Promise<void>;
   submitLabel?: string;
   defaultValues?: {
     interests?: string[];
-    skills?: string[];
+    skills?: Partial<Skills>;
   };
 }
 

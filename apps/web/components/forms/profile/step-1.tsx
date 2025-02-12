@@ -1,5 +1,7 @@
 'use client';
 
+import type { Database } from '@/utils/database.types';
+
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Input } from '@founderswap/design-system/components/ui/input';
 import { Label } from '@founderswap/design-system/components/ui/label';
@@ -12,6 +14,8 @@ import {
 } from '@founderswap/design-system/components/ui/select';
 import { Separator } from '@founderswap/design-system/components/ui/separator';
 
+type ProfileType = Database['public']['Tables']['user_profile']['Row'];
+
 interface Step1Props {
   onSubmit: (formData: FormData) => Promise<void>;
   submitLabel?: string;
@@ -22,6 +26,7 @@ interface Step1Props {
     company_size?: string;
     company_website?: string;
     company_linkedin?: string;
+    profile?: Partial<ProfileType>;
   };
 }
 
