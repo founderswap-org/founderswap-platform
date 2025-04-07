@@ -1,0 +1,13 @@
+{
+  "name": "my-workers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "wrangler build",
+    "deploy": "wrangler publish"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "wrangler": "^4.8.0"
+  }
+}

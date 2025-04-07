@@ -1,4 +1,5 @@
 'use server';
+import { RoomProvider } from '@/hooks/useRoomContext';
 import type { CustomUser } from '@/types/user';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
@@ -23,7 +24,7 @@ export default async function Layout({
 
   return (
     <AuthProviderWrapper user={data.user as CustomUser}>
-      {children}
+      <RoomProvider>{children}</RoomProvider>
     </AuthProviderWrapper>
   );
 }
