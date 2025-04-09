@@ -26,6 +26,7 @@ export default function useRoom({
   const websocket = usePartySocket({
     party: 'rooms',
     room: roomName,
+    host: process.env.NEXT_PUBLIC_WS_HOST, //TODO: PASS HERE CORRECT HOST *******
     onMessage: (e) => {
       const message = JSON.parse(e.data) as ServerMessage;
       switch (message.type) {

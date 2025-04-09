@@ -1,23 +1,48 @@
 'use client';
 
+import { AudioIndicator } from '@/components/call/AudioIndicator';
 import { CameraButton } from '@/components/call/CameraButton';
+import { CopyButton } from '@/components/call/CopyButton';
+import { Disclaimer } from '@/components/call/Disclaimer';
 import { MicButton } from '@/components/call/MicButton';
 import { SelfView } from '@/components/call/SelfView';
 import { SettingsButton } from '@/components/call/SettingsDialog';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/components/call/Spinner';
 
-import { useRoomContext } from '@/hooks/useRoomContext';
+import { Icon } from '@/components/call/icon/Icon';
+import { useRoomContext } from '@/context/room';
 import { useRoomUrl } from '@/hooks/useRoomUrl';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Tooltip } from '@founderswap/design-system/components/ui/tooltip';
 import { useObservableAsValue } from 'partytracks/react';
 
-export default function Lobby() {
+let refreshCheckDone = false;
+function trackRefreshes() {
+  if (refreshCheckDone) return;
+  if (typeof document === 'undefined') return;
+
+  const key = 'previously loaded';
+  const initialValue = sessionStorage.getItem(key);
+  const refreshed = initialValue !== null;
+  sessionStorage.setItem(key, Date.now().toString());
+
+  // TODO: check this feature reportRefresh
+  //   if (refreshed) {
+  //     fetch(`/api/reportRefresh`, {
+  //       method: 'POST',
+  //     });
+  //   }
+
+  refreshCheckDone = true;
+}
+
+const Lobby = () => {
+  //   const navigate = useNavigate();
   const { setJoined, userMedia, room, partyTracks } = useRoomContext();
   const { videoStreamTrack, audioStreamTrack, audioEnabled } = userMedia;
-
   const session = useObservableAsValue(partyTracks.session$);
   const sessionError = useObservableAsValue(partyTracks.sessionError$);
+  trackRefreshes();
 
   const joinedUsers = new Set(
     room.otherUsers.filter((u) => u.tracks.audio).map((u) => u.name)
@@ -25,16 +50,12 @@ export default function Lobby() {
 
   const roomUrl = useRoomUrl();
 
-  console.log('roomUrl: ', roomUrl);
-
-  const roomName = 'NOME STANZA HARDCODED';
-
   return (
     <div className="flex h-full flex-col items-center justify-center p-4">
       <div className="flex-1" />
       <div className="w-96 space-y-4">
         <div>
-          <h1 className="font-bold text-3xl">{roomName}</h1>
+          {/* <h1 className="font-bold text-3xl">{roomName}</h1> */}
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {`${joinedUsers} ${
               joinedUsers === 1 ? 'user' : 'users'
@@ -46,23 +67,24 @@ export default function Lobby() {
             className="aspect-[4/3] w-full"
             videoTrack={videoStreamTrack}
           />
+
           <div className="absolute top-3 left-3">
             {!sessionError && !session?.sessionId ? (
               <Spinner className="text-zinc-100" />
             ) : (
               audioStreamTrack && (
-                <>
+                <div>
                   {audioEnabled ? (
                     <AudioIndicator audioTrack={audioStreamTrack} />
                   ) : (
                     <Tooltip content="Mic is turned off">
                       <div className="indication-shadow text-white">
                         <Icon type="micOff" />
-                        <VisuallyHidden>Mic is turned off</VisuallyHidden>
+                        {/* <VisuallyHidden>Mic is turned off</VisuallyHidden> */}
                       </div>
                     </Tooltip>
                   )}
-                </>
+                </div>
               )
             )}
           </div>
@@ -130,11 +152,15 @@ export default function Lobby() {
           <CameraButton />
           <SettingsButton />
           <Tooltip content="Copy URL">
-            COPIAAA
-            {/* <CopyButton contentValue={roomUrl}></CopyButton> */}
+            <CopyButton contentValue={roomUrl} />
           </Tooltip>
         </div>
       </div>
+      <div className="flex flex-1 flex-col justify-end">
+        <Disclaimer className="pt-6" />
+      </div>
     </div>
   );
-}
+};
+
+export default Lobby;

@@ -12,13 +12,9 @@ export default async function RoomPage({
 }: {
   params: { roomName: string };
 }) {
-  // Estrai il parametro in una variabile (così non si usa direttamente params.roomName)
-
   const { roomName } = await params;
-  console.log('roomName: ', roomName);
-
   invariant(roomName, 'roomName is required');
-  // Recupera le variabili d'ambiente.
+
   const {
     TRACE_LINK,
     API_EXTRA_PARAMS,
@@ -33,6 +29,8 @@ export default async function RoomPage({
   } = process.env;
 
   // const iceServers = await getIceServers(process.env);
+
+  // TODO: FETCH ICE SERVERS
 
   const iceServers = [
     {
@@ -58,7 +56,7 @@ export default async function RoomPage({
     maxWebcamBitrate: numberOrUndefined(MAX_WEBCAM_BITRATE),
     maxWebcamQualityLevel: numberOrUndefined(MAX_WEBCAM_QUALITY_LEVEL),
     maxApiHistory: numberOrUndefined(MAX_API_HISTORY),
-    roomName: roomName,
+    roomName,
   };
 
   return <RoomPageClient {...props} />;

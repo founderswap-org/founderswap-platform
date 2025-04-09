@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "wrangler build",
-    "deploy": "wrangler publish"
+    "build": "tsc",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler publish"
   },
-  "dependencies": {},
+  "dependencies": {
+    "iron-session": "^8.0.4",
+    "tiny-invariant": "^1.3.3"
+  },
   "devDependencies": {
-    "wrangler": "^4.8.0"
+    "@cloudflare/vitest-pool-workers": "^0.4.19",
+    "@cloudflare/workers-types": "^4.20250408.0",
+    "drizzle-orm": "^0.41.0",
+    "partyserver": "^0.0.66",
+    "wrangler": "^4.9.1"
   }
 }

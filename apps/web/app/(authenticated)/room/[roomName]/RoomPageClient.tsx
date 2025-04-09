@@ -5,6 +5,7 @@ import { EnsureOnline } from '@/components/call/EnsureOnline';
 import { EnsurePermissions } from '@/components/call/EnsurePermissions';
 import { Spinner } from '@/components/call/Spinner';
 import { Icon } from '@/components/call/icon/Icon';
+import { RoomProvider } from '@/context/room';
 import { usePeerConnection } from '@/hooks/usePeerConnection';
 import useRoom from '@/hooks/useRoom';
 import { useRoomHistory } from '@/hooks/useRoomHistory';
@@ -14,6 +15,7 @@ import { useObservableAsValue, useValueAsObservable } from 'partytracks/react';
 import { useMemo, useState } from 'react';
 import { from, of, switchMap } from 'rxjs';
 import invariant from 'tiny-invariant';
+import Lobby from './Lobby';
 
 function trackObjectToString(trackObject?: {
   sessionId: string;
@@ -54,7 +56,10 @@ export default function RoomPageClient(props: {
   const userMedia = useUserMedia();
   const room = useRoom({ roomName, userMedia });
 
+  console.log('----- room ------', room);
+  room.roomState.meetingId = '5fe77898-e555-404b-a82a-aaa8e1e6cbb4';
   // Se il meeting non è ancora pronto, mostra uno spinner.
+  // TODO: find an alternative to check if the meeting is ready:
   if (!room.roomState.meetingId) {
     return (
       <div className="grid h-full place-items-center">
@@ -172,7 +177,7 @@ export default function RoomPageClient(props: {
       >
         <RoomProvider value={contextValue}>
           {/* Qui puoi decidere di visualizzare la Lobby oppure il contenuto della Room */}
-          {/* <Lobby /> */}
+          <Lobby roomName={roomName} />
           Lobby qui
         </RoomProvider>
       </EnsureOnline>

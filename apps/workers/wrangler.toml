@@ -1,0 +1,17 @@
+name = "founder-swap-orange-meets-workers"
+compatibility_date = "2024-10-07"
+main = "./build/index.js"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+CALLS_APP_ID = "6acb4495f440c991b81d6f3bde138bde"
+TURN_SERVICE_ID = "f6aa82ec30ec5baae2a39a03719f27e5"
+CALLS_APP_SECRET = "f4ecf6945c6d8dd1ef699cdc5b47be14e31b6585c89070c173d42f383b2ce408"
+
+[[durable_objects.bindings]]
+name = "rooms"
+class_name = "ChatRoom"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["ChatRoom"]
