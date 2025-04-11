@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
+import { useRoomContext } from '@/context/room';
 import useMediaDevices from '@/hooks/useMediaDevices';
-import { useRoomContext } from '@/hooks/useRoomContext';
 import { errorMessageMap } from '@/hooks/useUserMedia';
 import { Select } from '@founderswap/design-system/components/ui/select';
 

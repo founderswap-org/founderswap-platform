@@ -1,4 +1,4 @@
-import { useRoomContext } from '@/hooks/useRoomContext';
+import { useRoomContext } from '@/context/room';
 import type { FC, ReactNode } from 'react';
 
 import { Button } from '@founderswap/design-system/components/ui/button';

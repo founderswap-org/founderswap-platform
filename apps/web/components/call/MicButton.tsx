@@ -1,4 +1,4 @@
-import { useRoomContext } from '@/hooks/useRoomContext';
+import { useRoomContext } from '@/context/room';
 import { errorMessageMap } from '@/hooks/useUserMedia';
 import { metaKey } from '@/utils/metaKey';
 // import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
@@ -84,7 +84,7 @@ export const MicButton: FC<
             asChild
             altText="Unmute to talk"
           >
-            <Button displayType="danger" onClick={toggle}>
+            <Button variant="danger" onClick={toggle}>
               <VisuallyHidden>Turn mic on</VisuallyHidden>
               <Icon type="micOff" />
             </Button>

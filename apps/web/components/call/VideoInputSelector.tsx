@@ -1,5 +1,5 @@
+import { useRoomContext } from '@/context/room';
 import useMediaDevices from '@/hooks/useMediaDevices';
-import { useRoomContext } from '@/hooks/useRoomContext';
 import { errorMessageMap } from '@/hooks/useUserMedia';
 import { getSortedDeviceListObservable } from '@/utils/rxjs/getDeviceListObservable';
 import { Select } from '@founderswap/design-system/components/ui/select';

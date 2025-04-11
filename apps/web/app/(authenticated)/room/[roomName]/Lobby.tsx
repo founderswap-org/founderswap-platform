@@ -1,6 +1,5 @@
 'use client';
 
-import { AudioIndicator } from '@/components/call/AudioIndicator';
 import { CameraButton } from '@/components/call/CameraButton';
 import { CopyButton } from '@/components/call/CopyButton';
 import { Disclaimer } from '@/components/call/Disclaimer';
@@ -8,13 +7,27 @@ import { MicButton } from '@/components/call/MicButton';
 import { SelfView } from '@/components/call/SelfView';
 import { SettingsButton } from '@/components/call/SettingsDialog';
 import { Spinner } from '@/components/call/Spinner';
-
-import { Icon } from '@/components/call/icon/Icon';
 import { useRoomContext } from '@/context/room';
 import { useRoomUrl } from '@/hooks/useRoomUrl';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Tooltip } from '@founderswap/design-system/components/ui/tooltip';
 import { useObservableAsValue } from 'partytracks/react';
+
+// import { AudioIndicator } from '@/components/call/AudioIndicator';
+// import { CameraButton } from '@/components/call/CameraButton';
+// import { CopyButton } from '@/components/call/CopyButton';
+// import { Disclaimer } from '@/components/call/Disclaimer';
+// import { MicButton } from '@/components/call/MicButton';
+// import { SelfView } from '@/components/call/SelfView';
+// import { SettingsButton } from '@/components/call/SettingsDialog';
+// import { Spinner } from '@/components/call/Spinner';
+
+// import { Icon } from '@/components/call/icon/Icon';
+// import { useRoomContext } from '@/context/room';
+// import { useRoomUrl } from '@/hooks/useRoomUrl';
+// import { Button } from '@founderswap/design-system/components/ui/button';
+// import { Tooltip } from '@founderswap/design-system/components/ui/tooltip';
+// import { useObservableAsValue } from 'partytracks/react';
 
 let refreshCheckDone = false;
 function trackRefreshes() {

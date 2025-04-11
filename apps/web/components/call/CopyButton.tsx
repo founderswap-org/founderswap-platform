@@ -1,6 +1,5 @@
-import Icon from '@/app/icon';
 import { Button } from '@founderswap/design-system/components/ui/button';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+// import { Icon } from 'lucide-react';
 import {
   type ComponentProps,
   type ElementRef,
@@ -18,8 +17,8 @@ interface CopyButtonProps extends ComponentProps<'button'> {
 export const CopyButton = forwardRef<ElementRef<'button'>, CopyButtonProps>(
   (
     {
-      children = <VisuallyHidden>Copy</VisuallyHidden>,
-      copiedMessage = <VisuallyHidden>Copied!</VisuallyHidden>,
+      children = 'Copy',
+      copiedMessage = 'Copied!',
       contentValue,
       onClick,
       ...rest
@@ -34,7 +33,7 @@ export const CopyButton = forwardRef<ElementRef<'button'>, CopyButtonProps>(
 
     return (
       <Button
-        displayType="secondary"
+        variant="secondary"
         onClick={(e) => {
           onClick && onClick(e);
           navigator.clipboard.writeText(contentValue);
@@ -45,10 +44,10 @@ export const CopyButton = forwardRef<ElementRef<'button'>, CopyButtonProps>(
         className="flex items-center gap-2 text-xs"
         {...rest}
       >
-        <Icon
+        {/* <Icon
           type={copied ? 'ClipboardDocumentCheckIcon' : 'ClipboardDocumentIcon'}
           className="text-xl"
-        />
+        /> */}
         {copied ? copiedMessage : children}
       </Button>
     );

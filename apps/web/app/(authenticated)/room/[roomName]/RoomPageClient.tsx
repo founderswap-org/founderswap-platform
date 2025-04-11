@@ -56,8 +56,7 @@ export default function RoomPageClient(props: {
   const userMedia = useUserMedia();
   const room = useRoom({ roomName, userMedia });
 
-  console.log('----- room ------', room);
-  room.roomState.meetingId = '5fe77898-e555-404b-a82a-aaa8e1e6cbb4';
+  room.roomState.meetingId = roomName;
   // Se il meeting non è ancora pronto, mostra uno spinner.
   // TODO: find an alternative to check if the meeting is ready:
   if (!room.roomState.meetingId) {
@@ -177,7 +176,7 @@ export default function RoomPageClient(props: {
       >
         <RoomProvider value={contextValue}>
           {/* Qui puoi decidere di visualizzare la Lobby oppure il contenuto della Room */}
-          <Lobby roomName={roomName} />
+          <Lobby />
           Lobby qui
         </RoomProvider>
       </EnsureOnline>

@@ -1,4 +1,4 @@
-import { useRoomContext } from '@/hooks/useRoomContext';
+import { useRoomContext } from '@/context/room';
 import { errorMessageMap } from '@/hooks/useUserMedia';
 
 import { metaKey } from '@/utils/metaKey';
@@ -46,7 +46,7 @@ export const CameraButton: FC<ButtonProps> = ({ onClick, ...rest }) => {
       }
     >
       <Button
-        displayType={videoEnabled ? 'secondary' : 'danger'}
+        variant={videoEnabled ? 'secondary' : 'danger'}
         disabled={!!videoUnavailableMessage}
         onClick={(e) => {
           toggle();

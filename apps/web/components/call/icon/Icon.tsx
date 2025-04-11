@@ -29,7 +29,7 @@ import {
   Wifi,
   XCircleIcon,
 } from 'lucide-react';
-import type { FC } from 'react';
+import type { FC, JSX } from 'react';
 
 const iconMap = {
   micOn: Mic,
