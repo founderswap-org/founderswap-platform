@@ -24,34 +24,59 @@ export default function useRoom({
   }, []);
 
   const websocket = usePartySocket({
-    party: 'rooms',
+    // party: 'main',
     room: roomName,
-    host: process.env.NEXT_PUBLIC_WS_HOST, //TODO: PASS HERE CORRECT HOST *******
+    host: process.env.NEXT_PUBLIC_WS_HOST!,
     onMessage: (e) => {
-      const message = JSON.parse(e.data) as ServerMessage;
-      switch (message.type) {
-        case 'roomState':
-          // prevent updating state if nothing has changed
-          if (JSON.stringify(message.state) === JSON.stringify(roomState))
+      console.log('e.data:', e.data);
+
+      const input = e.data;
+
+      // Trova la posizione della prima occorrenza di '{'
+      const jsonStartIndex = input.indexOf('{');
+
+      let jsonData;
+      if (jsonStartIndex !== -1) {
+        // Estrai la parte JSON della stringa
+        const jsonStr = input.substring(jsonStartIndex);
+
+        // Prova a parsare la stringa JSON
+        try {
+          jsonData = JSON.parse(jsonStr);
+          console.log('JSON parsed:', jsonData);
+        } catch (error) {
+          console.error('Errore nel parsing della stringa JSON:', error);
+        }
+      }
+
+      const message = jsonData as ServerMessage;
+
+      if (message) {
+        switch (message.type) {
+          case 'roomState':
+            // prevent updating state if nothing has changed
+            if (JSON.stringify(message.state) === JSON.stringify(roomState))
+              break;
+            setRoomState(message.state);
             break;
-          setRoomState(message.state);
-          break;
-        case 'error':
-          console.error('Received error message from WebSocket');
-          console.error(message.error);
-          break;
-        case 'directMessage':
-          break;
-        case 'muteMic':
-          userMedia.turnMicOff();
-          break;
-        case 'partyserver-pong':
-        case 'aiSdp':
-          // do nothing
-          break;
-        default:
-          assertNever(message);
-          break;
+          case 'error':
+            console.error('Received error message from WebSocket');
+            console.error(message.error);
+            break;
+          case 'directMessage':
+            break;
+          case 'muteMic':
+            userMedia.turnMicOff();
+            break;
+          case 'partyserver-pong':
+          case 'aiSdp':
+            // do nothing
+            break;
+
+          default:
+            assertNever(message);
+            break;
+        }
       }
     },
   });
@@ -69,17 +94,6 @@ export default function useRoom({
     return () => {
       window.removeEventListener('beforeunload', onBeforeUnload);
     };
-  }, [websocket]);
-
-  // setup a heartbeat
-  useEffect(() => {
-    const interval = setInterval(() => {
-      websocket.send(
-        JSON.stringify({ type: 'heartbeat' } satisfies ClientMessage)
-      );
-    }, 5_000);
-
-    return () => clearInterval(interval);
   }, [websocket]);
 
   const identity = useMemo(

@@ -1,5 +1,6 @@
 'use client';
 
+import { AudioIndicator } from '@/components/call/AudioIndicator';
 import { CameraButton } from '@/components/call/CameraButton';
 import { CopyButton } from '@/components/call/CopyButton';
 import { Disclaimer } from '@/components/call/Disclaimer';
@@ -11,23 +12,8 @@ import { useRoomContext } from '@/context/room';
 import { useRoomUrl } from '@/hooks/useRoomUrl';
 import { Button } from '@founderswap/design-system/components/ui/button';
 import { Tooltip } from '@founderswap/design-system/components/ui/tooltip';
+import {} from 'lucide-react';
 import { useObservableAsValue } from 'partytracks/react';
-
-// import { AudioIndicator } from '@/components/call/AudioIndicator';
-// import { CameraButton } from '@/components/call/CameraButton';
-// import { CopyButton } from '@/components/call/CopyButton';
-// import { Disclaimer } from '@/components/call/Disclaimer';
-// import { MicButton } from '@/components/call/MicButton';
-// import { SelfView } from '@/components/call/SelfView';
-// import { SettingsButton } from '@/components/call/SettingsDialog';
-// import { Spinner } from '@/components/call/Spinner';
-
-// import { Icon } from '@/components/call/icon/Icon';
-// import { useRoomContext } from '@/context/room';
-// import { useRoomUrl } from '@/hooks/useRoomUrl';
-// import { Button } from '@founderswap/design-system/components/ui/button';
-// import { Tooltip } from '@founderswap/design-system/components/ui/tooltip';
-// import { useObservableAsValue } from 'partytracks/react';
 
 let refreshCheckDone = false;
 function trackRefreshes() {
@@ -63,6 +49,8 @@ const Lobby = () => {
 
   const roomUrl = useRoomUrl();
 
+  console.log('partyTracks', partyTracks);
+
   return (
     <div className="flex h-full flex-col items-center justify-center p-4">
       <div className="flex-1" />
@@ -92,7 +80,7 @@ const Lobby = () => {
                   ) : (
                     <Tooltip content="Mic is turned off">
                       <div className="indication-shadow text-white">
-                        <Icon type="micOff" />
+                        {/* <Icon iconNode={MicOff} /> */}
                         {/* <VisuallyHidden>Mic is turned off</VisuallyHidden> */}
                       </div>
                     </Tooltip>

@@ -1,33 +1,27 @@
+//apps/web/context/room/index.tsx
+
 'use client';
-import type useRoom from '@/hooks/useRoom';
-import type { useRoomHistory } from '@/hooks/useRoomHistory';
 import type { UserMedia } from '@/hooks/useUserMedia';
-import type { PartyTracks } from 'partytracks/client';
+import type usePartySocket from 'partysocket/react';
 import type React from 'react';
-import { type ReactNode, createContext, useContext } from 'react';
+import {
+  type ReactNode,
+  type RefObject,
+  createContext,
+  useContext,
+} from 'react';
 
 export type RoomContextType = {
-  traceLink?: string;
-  feedbackEnabled: boolean;
-  userDirectoryUrl?: string;
   joined: boolean;
   setJoined: React.Dispatch<React.SetStateAction<boolean>>;
-  pinnedTileIds: string[];
-  setPinnedTileIds: React.Dispatch<React.SetStateAction<string[]>>;
-  showDebugInfo: boolean;
-  setShowDebugInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  dataSaverMode: boolean;
-  setDataSaverMode: React.Dispatch<React.SetStateAction<boolean>>;
   userMedia: UserMedia;
-  partyTracks: PartyTracks;
-  iceConnectionState: RTCIceConnectionState;
-  room: ReturnType<typeof useRoom>;
-  roomHistory: ReturnType<typeof useRoomHistory>;
-  pushedTracks: {
-    video?: string;
-    audio?: string;
-    screenshare?: string;
+  iceConnectionState?: RTCIceConnectionState;
+  socket?: ReturnType<typeof usePartySocket>;
+  videos?: {
+    localVideoRef: RefObject<HTMLVideoElement | null>;
+    remoteVideoRef: RefObject<HTMLVideoElement | null>;
   };
+  remoteStream: MediaStream | null;
 };
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);

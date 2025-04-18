@@ -22,33 +22,18 @@ export default async function RoomPage({
     MAX_WEBCAM_BITRATE,
     MAX_WEBCAM_QUALITY_LEVEL,
     MAX_API_HISTORY,
-    USER_DIRECTORY_URL,
+    NEXT_PUBLIC_PARTYKIT_HOST,
     FEEDBACK_URL,
     FEEDBACK_QUEUE,
     FEEDBACK_STORAGE,
+    NEXT_PUBLIC_ICE_SERVERS,
   } = process.env;
 
-  // const iceServers = await getIceServers(process.env);
-
-  // TODO: FETCH ICE SERVERS
-
-  const iceServers = [
-    {
-      urls: 'stun:global.stun.cloudflare.com:3478',
-    },
-    // Se in futuro decidi di usare anche un server TURN, potresti aggiungere una voce simile a questa:
-    // {
-    //   urls: 'turn:global.turn.cloudflare.com:3478',
-    //   username: 'YOUR_USERNAME',
-    //   credential: 'YOUR_CREDENTIAL'
-    // }
-  ];
-
   const props = {
-    userDirectoryUrl: USER_DIRECTORY_URL || null,
+    userDirectoryUrl: NEXT_PUBLIC_PARTYKIT_HOST || null,
     traceLink: TRACE_LINK || null,
     apiExtraParams: API_EXTRA_PARAMS || '',
-    iceServers,
+    iceServers: JSON.parse(NEXT_PUBLIC_ICE_SERVERS!),
     feedbackEnabled: Boolean(
       FEEDBACK_URL && FEEDBACK_QUEUE && FEEDBACK_STORAGE
     ),
