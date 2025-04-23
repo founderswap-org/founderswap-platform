@@ -1,4 +1,6 @@
 // app/room/[roomName]/page.tsx
+export const runtime = 'edge';
+
 import invariant from 'tiny-invariant';
 import RoomPageClient from './RoomPageClient';
 
