@@ -6,8 +6,7 @@ export default async function blurVideoTrack(
 ) {
   // Creazione del segmenter utilizzando il modello BodyPix
   const segmenter = await bodySegmentation.createSegmenter(
-    bodySegmentation.SupportedModels.BodyPix,
-    {}
+    bodySegmentation.SupportedModels.BodyPix
   );
 
   // Recupera le dimensioni del video dalla traccia originale

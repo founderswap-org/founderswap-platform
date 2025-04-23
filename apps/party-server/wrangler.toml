@@ -1,0 +1,13 @@
+name = "founderswap-party"               # Worker name
+main = "src/server.ts"                   # EntryPoint
+compatibility_date = "2025-04-15"        # Same date in partykit.json
+
+# 1. Bind Durable Object
+[[durable_objects.bindings]]
+name       = "SERVER_DO"                 # Custom Alias
+class_name = "Server"                    # ClassName
+
+# 2. Migrazione per free‑plan SQLite back end
+[[migrations]]
+tag                = "init‑sqlite"      
+new_sqlite_classes = ["Server"]          # ClassName

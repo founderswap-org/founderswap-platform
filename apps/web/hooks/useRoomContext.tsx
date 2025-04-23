@@ -4,8 +4,6 @@ import type { UserMedia } from '@/hooks/useUserMedia';
 import type { PartyTracks } from 'partytracks/client';
 import { type ReactNode, createContext, useContext } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type useRoom from './useRoom';
-import type { useRoomHistory } from './useRoomHistory';
 
 export type RoomContextType = {
   traceLink?: string;
@@ -22,8 +20,6 @@ export type RoomContextType = {
   userMedia: UserMedia;
   partyTracks: PartyTracks;
   iceConnectionState: RTCIceConnectionState;
-  room: ReturnType<typeof useRoom>;
-  roomHistory: ReturnType<typeof useRoomHistory>;
   pushedTracks: {
     video?: string;
     audio?: string;

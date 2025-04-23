@@ -4,13 +4,13 @@ import RoomPageClient from './RoomPageClient';
 
 function numberOrUndefined(value: unknown): number | undefined {
   const num = Number(value);
-  return isNaN(num) ? undefined : num;
+  return Number.isNaN(num) ? undefined : num;
 }
 
 export default async function RoomPage({
   params,
 }: {
-  params: { roomName: string };
+  params: Promise<{ roomName: string }>;
 }) {
   const { roomName } = await params;
   invariant(roomName, 'roomName is required');

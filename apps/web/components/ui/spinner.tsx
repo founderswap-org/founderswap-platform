@@ -1,6 +1,13 @@
 import { cn } from '@founderswap/design-system/lib/utils';
+import type { FC, Ref } from 'react';
 
-export const Spinner = ({ className, ref, ...rest }) => {
+type props = {
+  className: string;
+  ref: Ref<SVGSVGElement> | undefined;
+  rest: any;
+};
+
+export const Spinner: FC<props> = ({ className, ref, ...rest }) => {
   return (
     <svg
       className={cn('h-5 w-5 animate-spin text-white', className)}
