@@ -34,17 +34,35 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
     options: {
       data: {
-        first_name: formData.get('first_name') as string,
-        last_name: formData.get('last_name') as string,
-        company_name: formData.get('company_name') as string
+        firstName: formData.get('first_name') as string,
+        lastName: formData.get('last_name') as string,
       }
     }
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const { data: userData, error } = await supabase.auth.signUp(data)
 
   if (error) {
+    console.error('error', error)
     redirect('/error')
+  }
+
+  // Add data to user_profile table
+
+  if (userData.user) {
+    const { error: profileError } = await supabase
+      .from('user_profile')
+      .insert([
+        {
+          first_name: formData.get('first_name') as string,
+          last_name: formData.get('last_name') as string,
+        }
+      ]);
+
+    if (profileError) {
+      console.error(profileError.message);
+    }
+
   }
 
   revalidatePath('/', 'layout')
