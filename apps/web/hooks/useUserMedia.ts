@@ -1,3 +1,5 @@
+// apps/web/hooks/useUserMedia.ts
+
 'use client';
 
 import { blackCanvasStreamTrack } from '@/utils/blackCanvasStreamTrack';
