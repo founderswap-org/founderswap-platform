@@ -1,3 +1,5 @@
+// apps/web/hooks/useP2PConnection.ts
+
 import type PartySocket from 'partysocket';
 import { useEffect, useRef, useState } from 'react';
 
@@ -29,6 +31,21 @@ export function useP2PConnection(
     // Create remote stream aggregated
     const remoteStreamRef = new MediaStream();
     setRemoteStream(remoteStreamRef);
+
+    pc.onconnectionstatechange = () => {
+      const state = pc.connectionState; // "new" | "connecting" | "connected" | "disconnected" | "failed" | "closed"
+      console.log('[P2P] connectionState:', state);
+
+      if (
+        state === 'disconnected' ||
+        state === 'failed' ||
+        state === 'closed'
+      ) {
+        // here you know that the other peer is no longer reachable
+        // ‣ Close UI, send nottification to the user, do cleanup, etc.
+        setRemoteStream(null);
+      }
+    };
 
     // Get track and add it the the remote stream
     pc.ontrack = ({ track }) => {
